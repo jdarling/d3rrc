@@ -1,6 +1,10 @@
 D3 React Reusable Charts
 ========================
 
+Warning, before you use this, I am reworking the Support.getProps method
+currently.  Don't go adding in new charts until I get that complete as it will
+change how you use it significantly.
+
 Install
 =======
 
@@ -35,6 +39,26 @@ Charts
 
 For now see the examples directory for the charts and how to use them.  More
 details will be coming soon.
+
+HELP!
+=====
+
+This is a starting point and hopefully a good one.  I would really appreciate
+help with this library.  Pull Requests for features and addons are welcome.
+Suggestions made in the issues will be addressed as I have time, but my time
+will be devoted more towards reviewing Pull Requests if there are any.
+
+The code should set the standard to follow.  Just follow what is already being
+done and you should be good.  Every chart should have an example in the examples
+folder with a link from the examples/index.html file to it.  Ideally there
+would be a description of the example as well.  The Source block
+(from //SOURCE DUMP) should be copied from another example into new examples.
+
+Properties should utilize the Support.getProps function.  I know it isn't perfect
+yet, but it will be improved over time.
+
+All Charts should be implemented in JSX in the lib folder and then added to the
+charts.js file in the root folder.
 
 LICENSE
 =======
