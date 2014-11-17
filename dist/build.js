@@ -2,6 +2,7 @@
 var Charts = {
   ChartTitle: require('./lib/title').ChartTitle,
   VBarChart: require('./lib/bar').VBarChart,
+  HBarChart: require('./lib/bar').HBarChart,
   PieChart: require('./lib/pie').PieChart,
   PieChart: require('./lib/pie').PieChart,
   TimeSeriesChart: require('./lib/timeseries').TimeSeriesChart,
@@ -20,8 +21,6 @@ var d3 = require('d3');
 
 var VBarChart = React.createClass({displayName: 'VBarChart',
   chart: function(selection){
-    var scaleO = d3.scale.ordinal();
-    var scaleL = d3.scale.linear();
     var $__0=
       
       
@@ -36,53 +35,54 @@ var VBarChart = React.createClass({displayName: 'VBarChart',
       
       
       
-      
-      
-      
-      
       Support.getProps(this, 'chart', {
-      margin: {top: 30, right: 10, bottom: 50, left: 50},
-      width: -1,
-      height: 420,
-      xRoundBands: 0.2,
-      xValue: function(d) { return d[0]; },
-      yValue: function(d) { return d[1]; },
-      xScale: scaleO,
-      yScale: scaleL,
-      yAxis: d3.svg.axis().scale(scaleL).orient("left"),
-      xAxis: d3.svg.axis().scale(scaleO),
-      xAxisBottom: d3.svg.axis().scale(scaleO),
-      duration: 500,
-      getColor: false,
-      enterBar: function(bar){
-        bar = bar.append("rect")
-          .attr("class", function(d, i) { return yValue(d) < 0 ? "negative" : "positive"; })
+      margin: Support.types.Object({
+                  top: Support.types.Number(10),
+                  right: Support.types.Number(10),
+                  bottom: Support.types.Number(20),
+                  left: Support.types.Number(50)
+                }),
+      width: Support.types.Number(-1),
+      height: Support.types.Number(420),
+      xRoundBands: Support.types.Number(0.2),
+      names: Support.types.Function(function(d) { return d[0]; }),
+      values: Support.types.Function(function(d) { return d[1]; }),
+      duration: Support.types.Number(500),
+      getColor: Support.types.Function(false),
+      enterBar: Support.types.Function(function(bar){
+        bar = bar.append('rect')
+          .attr('class', function(d, i) { return values(d) < 0 ? 'negative' : 'positive'; })
           ;
         if(getColor){
           bar.style('fill', getColor);
         }
-      },
-      updateBar: function(bar){
+      }),
+      updateBar: Support.types.Function(function(bar){
         bar.select('rect')
-          .attr("class", function(d) { return yValue(d) < 0 ? "negative" : "positive"; })
-          .attr("x", function(d) { return X(d); })
-          .attr("y", function(d) { return yValue(d) < 0 ? Y0() : Y(d); })
-          .attr("width", xScale.rangeBand())
-          .attr("height", function(d, i) { return Math.abs( Y(d) - Y0() ); })
+          .attr('class', function(d) { return values(d) < 0 ? 'negative' : 'positive'; })
+          .attr('x', function(d) { return X(d); })
+          .attr('y', function(d) { return values(d) < 0 ? Y0() : Y(d); })
+          .attr('width', xScale.rangeBand())
+          .attr('height', function(d, i) { return Math.abs( Y(d) - Y0() ); })
           ;
-      },
-      exitBar: function(bar){},
-      style: false
-    }),margin=$__0.margin,width=$__0.width,height=$__0.height,xRoundBands=$__0.xRoundBands,xValue=$__0.xValue,yValue=$__0.yValue,xScale=$__0.xScale,yScale=$__0.yScale,xAxis=$__0.xAxis,yAxis=$__0.yAxis,xAxisBottom=$__0.xAxisBottom,duration=$__0.duration,getColor=$__0.getColor,enterBar=$__0.enterBar,updateBar=$__0.updateBar,exitBar=$__0.exitBar,style=$__0.style;
+      }),
+      exitBar: Support.types.Function(function(bar){}),
+      style: Support.types.Object(false)
+    }),margin=$__0.margin,width=$__0.width,height=$__0.height,xRoundBands=$__0.xRoundBands,names=$__0.names,values=$__0.values,xAxisBottom=$__0.xAxisBottom,duration=$__0.duration,getColor=$__0.getColor,enterBar=$__0.enterBar,updateBar=$__0.updateBar,exitBar=$__0.exitBar,style=$__0.style;
     var X = function(d){
-      return xScale(xValue(d));
+      return xScale(names(d));
     };
     var Y0 = function(){
       return yScale(0);
     };
     var Y = function(d){
-      return yScale(yValue(d));
+      return yScale(values(d));
     };
+    var scaleO = xScale = d3.scale.ordinal();
+    var scaleL = yScale = d3.scale.linear();
+    var yAxis = d3.svg.axis().scale(scaleL).orient('left');
+    var xAxis = d3.svg.axis().scale(scaleO);
+    var xAxisBottom = d3.svg.axis().scale(scaleO);
     height = parseInt(height);
     width = parseInt(width);
     duration = parseInt(duration);
@@ -92,10 +92,10 @@ var VBarChart = React.createClass({displayName: 'VBarChart',
       var w = width===-1?this.offsetWidth:width;
       // Update the x-scale.
       xScale
-          .domain(data.map(xValue))
+          .domain(data.map(names))
           .rangeRoundBands([0, w - margin.left - margin.right], xRoundBands);
 
-      var ys = d3.extent(data.map(yValue));
+      var ys = d3.extent(data.map(values));
       if(ys[0]>0){
         ys[0] = 0;
       }
@@ -107,29 +107,29 @@ var VBarChart = React.createClass({displayName: 'VBarChart',
           .nice();
 
       // Select the svg element, if it exists.
-      var svg = d3.select(this).selectAll("svg").data([data]);
+      var svg = d3.select(this).selectAll('svg').data([data]);
 
       // Otherwise, create the skeletal chart.
-      var gEnter = svg.enter().append("svg").append("g");
-      gEnter.append("g").attr("class", "bars");
-      gEnter.append("g").attr("class", "y axis");
-      gEnter.append("g").attr("class", "x axis bottom");
-      gEnter.append("g").attr("class", "x axis zero");
+      var gEnter = svg.enter().append('svg').append('g');
+      gEnter.append('g').attr('class', 'bars');
+      gEnter.append('g').attr('class', 'y axis');
+      gEnter.append('g').attr('class', 'x axis bottom');
+      gEnter.append('g').attr('class', 'x axis zero');
 
       // Update the outer dimensions.
-      svg.attr("width", w)
-         .attr("height", height);
+      svg.attr('width', w)
+         .attr('height', height);
 
       // Update the inner dimensions.
-      var g = svg.select("g")
-          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      var g = svg.select('g')
+          .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
      // Update the bars.
-      var bars = svg.select(".bars");//.selectAll(".bar");//.data(data);
+      var bars = svg.select('.bars');//.selectAll('.bar');//.data(data);
       var bar = bars.selectAll('g.bar').data(data);
 
       var barEnter = bar.enter()
-        .append("g")
+        .append('g')
         .attr('class', 'bar')
         ;
       enterBar(barEnter);
@@ -140,18 +140,18 @@ var VBarChart = React.createClass({displayName: 'VBarChart',
       exitBar(barExit);
 
     // x axis at the bottom of the chart
-    g.select(".x.axis.bottom")
-        .attr("transform", "translate(0," + (height - margin.top - margin.bottom) + ")")
-        .call(xAxisBottom.orient("bottom"));
+    g.select('.x.axis.bottom')
+        .attr('transform', 'translate(0,' + (height - margin.top - margin.bottom) + ')')
+        .call(xAxisBottom.orient('bottom'));
     // zero line
-     g.select(".x.axis.zero")
-        .attr("transform", "translate(0," + Y0() + ")")
-        .call(xAxis.tickFormat("").tickSize(0));
+     g.select('.x.axis.zero')
+        .attr('transform', 'translate(0,' + Y0() + ')')
+        .call(xAxis.tickFormat('').tickSize(0));
 
       // Update the y-axis.
-      g.select(".y.axis")
+      g.select('.y.axis')
         .call(yAxis);
-      g.selectAll(".axis line")
+      g.selectAll('.axis line')
           .attr('style', 'shape-rendering: crispEdges; stroke: black; fill: none;')
         ;
         g.selectAll('.axis path')
@@ -192,8 +192,159 @@ var VBarChart = React.createClass({displayName: 'VBarChart',
   }
 });
 
+var HBarChart = React.createClass({displayName: 'HBarChart',
+  chart: function(selection){
+    var $__0=
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      Support.getProps(this, 'chart', {
+      margin: Support.types.Object({
+                  top: Support.types.Number(0),
+                  right: Support.types.Number(10),
+                  bottom: Support.types.Number(20),
+                  left: Support.types.Number(50)
+                }),
+      width: Support.types.Number(-1),
+      height: Support.types.Number(420),
+      names: Support.types.Function(function(d) { return d[0]; }),
+      values: Support.types.Function(function(d) { return d[1]; }),
+      duration: Support.types.Number(500),
+      getColor: Support.types.Function(false),
+      enterBar: Support.types.Function(function(bar){
+          bar = bar.append('rect')
+            .attr('class', 'bar')
+            ;
+          if(getColor){
+            bar.style('fill', getColor);
+          }
+        }),
+      updateBar: Support.types.Function(function(bar){
+          bar.select('rect')
+            .attr('x', function(d) { return margin.left; })
+            .attr('y', function(d) { return Y(d); })
+            .attr('width', function(d){ return X(d); })
+            .attr('height', yScale.rangeBand())
+            ;
+        }),
+      exitBar: Support.types.Function(function(bar){}),
+      style: Support.types.Object(false)
+    }),margin=$__0.margin,width=$__0.width,height=$__0.height,names=$__0.names,values=$__0.values,duration=$__0.duration,getColor=$__0.getColor,enterBar=$__0.enterBar,updateBar=$__0.updateBar,exitBar=$__0.exitBar,style=$__0.style;
+    var xScale = d3.scale.linear();
+    var yScale = d3.scale.ordinal();
+    var X = function(d){
+      return xScale(values(d));
+    };
+    var Y = function(d){
+      return yScale(names(d))+margin.top;
+    };
+
+    selection.each(function(data) {
+      var w = width===-1?this.offsetWidth:width;
+      var maxChartHeight = height - margin.top - margin.bottom;
+
+      var svg = d3.select(this).selectAll('svg').data([data]);
+      svg.enter().append('svg')
+                .attr('width', w)
+                .attr('height', height);
+
+      var maxValue = d3.max(data, values);
+      yScale.domain(data.map(names));
+      xScale.range([0, w-margin.left-margin.right]).domain([0, maxValue]).nice();
+      yScale.rangeBands([0, maxChartHeight], 0.1, 0.25);
+
+      var yAxis = d3.svg.axis().scale(yScale).orient('left');
+      var xAxis = d3.svg.axis().scale(xScale).orient('bottom');
+
+      var bars = svg.selectAll('.bar')
+            .data(data);
+      var barEnter = bars.enter()
+            .append('g')
+            .attr('class', 'bar');
+      enterBar(barEnter);
+      updateBar(bars.transition().duration(duration));
+
+      var barExit = bars.exit()
+        .remove()
+        ;
+      exitBar(barExit);
+
+      //append x axis
+      svg.append("g")
+            .attr("transform", "translate(" + margin.left + ", " + (maxChartHeight + margin.top) + ")")
+            .attr("text-anchor", "middle")
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "10px")
+            .style("stroke", "black")
+            .style("fill", "none")
+            .style("stroke-width", 1)
+            .style("shape-rendering", "crispEdges")
+            .call(xAxis)
+              .selectAll("text")
+              .attr("stroke", "none")
+              .attr("fill", "black");
+
+        //append y axis
+        svg.append("g")
+              .attr("transform", "translate(" + margin.left + ", " + margin.top + ")")
+              .attr("text-anchor", "middle")
+              .attr("font-family", "sans-serif")
+              .attr("font-size", "10px")
+              .style("stroke", "black")
+              .style("fill", "none")
+              .style("stroke-width", 1)
+              .style("shape-rendering", "crispEdges")
+              .call(yAxis)
+              .selectAll("text")
+                .attr("stroke", "none")
+                .attr("fill", "black");
+
+      if(style){
+        console.log(style);
+        Object.keys(style).forEach(function(key){
+          svg.selectAll(key).attr('style', style[key]);
+        });
+      }
+    });
+  },
+  renderChart: function(data){
+    if(!data){
+      return;
+    }
+    var container = this.getDOMNode();
+    d3.select(container)
+      .datum(data)
+      .call(this.chart)
+      ;
+  },
+  componentDidMount: function(){
+    return this.renderChart(this.props.data);
+  },
+  componentDidUpdate: function(){
+    return this.renderChart(this.props.data);
+  },
+  render: function(){
+    var classNames = Support.classList(this, {
+      'bar-chart': true
+    });
+    return (
+      React.createElement("div", {className: classNames}
+      )
+    );
+  }
+});
+
 module.exports = {
-  VBarChart: VBarChart
+  VBarChart: VBarChart,
+  HBarChart: HBarChart
 };
 
 },{"../lib/support":5,"d3":10,"react":172}],3:[function(require,module,exports){
@@ -222,26 +373,31 @@ var PieChart = React.createClass({displayName: 'PieChart',
       
       
       Support.getProps(this, 'chart', {
-      margin: {top: 20, left: 50, bottom: 20, right: 20},
-      width: -1,
-      height: 500,
-      duration: 500,
-      identity: '_id',
-      innerRadius: 0,
-      style: false,
-      onUpdate: false,
-      getValue: function x(d){
+      margin: Support.types.Object({
+                  top: Support.types.Number(20),
+                  right: Support.types.Number(10),
+                  bottom: Support.types.Number(20),
+                  left: Support.types.Number(50)
+                }),
+      width: Support.types.Number(-1),
+      height: Support.types.Number(500),
+      duration: Support.types.Number(500),
+      identity: Support.types.String('_id'),
+      innerRadius: Support.types.Number(0),
+      style: Support.types.Object(false),
+      onUpdate: Support.types.Function(false),
+      getValue: Support.types.Function(function x(d){
         return +d.value;
-      },
-      colorRange: false,
-      color: false,
-      getText: function(d){
+      }),
+      colorRange: Support.types.Function(false),
+      color: Support.types.Function(false),
+      getText: Support.types.Function(function(d){
         return d.text||'';
-      },
-      getIdentity: function(d){
+      }),
+      getIdentity: Support.types.Function(function(d){
         return d.data[identity] || (d.data[identity] = ++idx);
-      },
-      enterSlice: function(node, arc){
+      }),
+      enterSlice: Support.types.Function(function(node, arc){
         node.append('path')
           .style('fill', function(d){
             return color(d.data);
@@ -252,8 +408,8 @@ var PieChart = React.createClass({displayName: 'PieChart',
           .attr("dy", ".35em")
           .style("text-anchor", "middle")
           .text(function(d) { return getText(d.data); });
-      },
-      updateSlice: function(node, arc){
+      }),
+      updateSlice: Support.types.Function(function(node, arc){
         node.select('path')
           .style('fill', function(d){
             return color(d.data);
@@ -269,9 +425,8 @@ var PieChart = React.createClass({displayName: 'PieChart',
         node.select('text')
           .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
           .text(function(d) { return getText(d.data); });
-      },
-      exitSlice: function(node, arc){
-      }
+      }),
+      exitSlice: Support.types.Function(function(node, arc){})
     }),margin=$__0.margin,width=$__0.width,height=$__0.height,duration=$__0.duration,identity=$__0.identity,innerRadius=$__0.innerRadius,style=$__0.style,onUpdate=$__0.onUpdate,getValue=$__0.getValue,colorRange=$__0.colorRange,color=$__0.color,getText=$__0.getText,getIdentity=$__0.getIdentity,enterSlice=$__0.enterSlice,updateSlice=$__0.updateSlice,exitSlice=$__0.exitSlice;
 
     color = color || function(d){
@@ -403,27 +558,31 @@ var ScatterChart = React.createClass({displayName: 'ScatterChart',
       
       
       Support.getProps(this, 'chart', {
-      margin: {top: 30, right: 10, bottom: 50, left: 50},
-      width: -1,
-      height: 420,
-      duration: 500,
-      showXAxis: true,
-      showYAxis: true,
-      identity: '_id',
-      idx: 1,
-      style: false,
-      onUpdate: false,
-      getColor: false,
-      getX: function x(d){
+      margin: Support.types.Object({
+            top: Support.types.Number(30),
+            right: Support.types.Number(10),
+            bottom: Support.types.Number(50),
+            left: Support.types.Number(50)
+          }),
+      width: Support.types.Number(-1),
+      height: Support.types.Number(420),
+      duration: Support.types.Number(500),
+      showXAxis: Support.types.Boolean(true),
+      showYAxis: Support.types.Boolean(true),
+      identity: Support.types.String('_id'),
+      idx: Support.types.Number(1),
+      style: Support.types.Object(false),
+      getColor: Support.types.Function(false),
+      getX: Support.types.Function(function x(d){
         return d.x;
-      },
-      getY: function y(d){
+      }),
+      getY: Support.types.Function(function y(d){
         return d.y;
-      },
-      getR: function(d){
+      }),
+      getR: Support.types.Function(function(d){
         return 8;
-      },
-      getScaleX: function(data, w){
+      }),
+      getScaleX: Support.types.Function(function(data, w){
         var min = d3.min(data, getX), max = d3.max(data, getX);
         var r = ((max - min) * 0.1) || 1;
         min -= r;
@@ -432,8 +591,8 @@ var ScatterChart = React.createClass({displayName: 'ScatterChart',
           .domain([min, max])
           .range([0, w])
           ;
-      },
-      getScaleY: function(data, h){
+      }),
+      getScaleY: Support.types.Function(function(data, h){
         var min = d3.min(data, getY), max = d3.max(data, getY);
         var r = ((max - min) * 0.1) || 1;
         min -= r;
@@ -442,12 +601,12 @@ var ScatterChart = React.createClass({displayName: 'ScatterChart',
           .domain([max, min])
           .range([0,h])
           ;
-      },
-      getColor: function(d){
+      }),
+      getColor: Support.types.Function(function(d){
         return 'black';
-      },
-      getText: function(d){ return d.text||''; },
-      enterNode: function(node){
+      }),
+      getText: Support.types.Function(function(d){ return d.text||''; }),
+      enterNode: Support.types.Function(function(node){
         var circle = node.append('svg:circle')
             .attr('r', 1e-6);
 
@@ -460,22 +619,21 @@ var ScatterChart = React.createClass({displayName: 'ScatterChart',
             .attr('dy', function(d){return -getR(d)-3})
             .text(getText)
             .style('fill-opacity', 1);
-      },
-      updateNode: function(node){
+      }),
+      updateNode: Support.types.Function(function(node){
         node.select('text')
           .text(getText);
 
         node.select('circle')
             .attr('r', getR);
-      },
-      exitNode: function(node){
+      }),
+      exitNode: Support.types.Function(function(node){
         node.select('circle')
             .attr('r', 1e-6);
 
         node.select('text')
             .style('fill-opacity', 1e-6);
-      },
-      style: false
+      })
     }),margin=$__0.margin,width=$__0.width,height=$__0.height,duration=$__0.duration,showXAxis=$__0.showXAxis,showYAxis=$__0.showYAxis,identity=$__0.identity,idx=$__0.idx,style=$__0.style,onUpdate=$__0.onUpdate,getColor=$__0.getColor,getX=$__0.getX,getY=$__0.getY,getR=$__0.getR,getScaleX=$__0.getScaleX,getScaleY=$__0.getScaleY,getColor=$__0.getColor,getText=$__0.getText,enterNode=$__0.enterNode,updateNode=$__0.updateNode,exitNode=$__0.exitNode,style=$__0.style;
 
     selection.each(function(data){
@@ -619,7 +777,75 @@ module.exports = {
 },{"../lib/support":5,"d3":10,"react":172}],5:[function(require,module,exports){
 var React = require('react/addons');
 
+var types = {
+  Object: function(def){
+    return function(src, props, prefix, key){
+      var reMatchKey = new RegExp('^'+prefix+'-'+key+'-');
+      var res = {}, extended = false;
+      if(def){
+        Object.keys(def).forEach(function(key){
+          res[key]=def[key]();
+        });
+      }
+      if(src && typeof(src)==='object'){
+        Object.keys(src).forEach(function(key){
+          extended = true;
+          if(def[key]){
+            return res[key]=def[key](src[key]);
+          }
+          res[key]=src[key];
+        });
+      }
+      Object.keys(props).forEach(function(key){
+        var seg = key.split('-').slice(2).join('-');
+        if(seg){
+          extended = true;
+          val = props[key];
+          if(def[seg]){
+            return res[seg]=def[seg](val);
+          }
+          res[seg]=val;
+        }
+      });
+      return extended?res:(def?res:def);
+    };
+  },
+  Number:function(def){
+    return function(src){
+      if(!src){
+        return def;
+      }
+      return parseFloat(src);
+    };
+  },
+  Function:function(def){
+    return function(src){
+      if(!src){
+        return def;
+      }
+      return src;
+    };
+  },
+  Boolean:function(def){
+    return function(src){
+      if(!src){
+        return def;
+      }
+      return !!src;
+    };
+  },
+  String:function(def){
+    return function(src){
+      if(!src){
+        return def;
+      }
+      return ''+src;
+    };
+  },
+};
+
 module.exports = {
+  types: types,
   el: function(src, sel){
     if(!sel){
       sel = src;
@@ -853,10 +1079,16 @@ module.exports = {
     return res;
   },
 
-  getProps: function(component, prefix, defaults){
-    var res = {}, keys = Object.keys(defaults);
+  getProps: function(component, prefix, handlers){
+    var res = {}, keys = Object.keys(handlers);
     keys.forEach(function(key){
-      res[key] = component.props[prefix+'-'+key] || defaults[key];
+      try{
+        res[key] = handlers[key](component.props[prefix+'-'+key], component.props, prefix, key);
+      }catch(e){
+        console.error('ERROR with Props key '+key);
+        console.error(e.stack||e);
+        throw e;
+      }
     });
     return res;
   },
@@ -889,19 +1121,24 @@ var TimeSeriesChart = React.createClass({displayName: 'TimeSeriesChart',
       
       
       Support.getProps(this, 'chart', {
-      margin: {top: 20, right: 20, bottom: 20, left: 20},
-      width: 760,
-      height: 120,
-      xValue: function(d) {
+      margin: Support.types.Object({
+                  top: Support.types.Number(20),
+                  right: Support.types.Number(20),
+                  bottom: Support.types.Number(20),
+                  left: Support.types.Number(20)
+                }),
+      width: Support.types.Number(760),
+      height: Support.types.Number(120),
+      style: Support.types.Object(false),
+      xValue: Support.types.Function(function(d) {
           return d[0];
-        },
-      yValue: function(d) {
+        }),
+      yValue: Support.types.Function(function(d) {
           return d[1];
-        },
-      xScale: _scale,
-      yScale: lscale,
-      xAxis: d3.svg.axis().scale(_scale).orient("bottom").tickSize(6, 0),
-      style: false
+        }),
+      xScale: Support.types.Function(_scale),
+      yScale: Support.types.Function(lscale),
+      xAxis: Support.types.Function(d3.svg.axis().scale(_scale).orient("bottom").tickSize(6, 0))
     }),margin=$__0.margin,width=$__0.width,height=$__0.height,xValue=$__0.xValue,yValue=$__0.yValue,xScale=$__0.xScale,yScale=$__0.yScale,xAxis=$__0.xAxis,area=$__0.area,line=$__0.line,style=$__0.style;
     var area = d3.svg.area().x(_X).y1(_Y);
     var line = d3.svg.line().x(_X).y(_Y);
@@ -1010,16 +1247,21 @@ var TimeSeries2Chart = React.createClass({displayName: 'TimeSeries2Chart',
       
       
       Support.getProps(this, 'chart', {
-      margin: {top: 10, right: 10, bottom: 100, left: 40},
-      width: 1200,
-      height: 400,
-      xValue: function(d) {
+      margin: Support.types.Object({
+                  top: Support.types.Number(10),
+                  right: Support.types.Number(10),
+                  bottom: Support.types.Number(100),
+                  left: Support.types.Number(40)
+                }),
+      width: Support.types.Number(-1),
+      height: Support.types.Number(400),
+      style: Support.types.Object(false),
+      xValue: Support.types.Function(function(d) {
           return d[0];
-        },
-      yValue: function(d) {
+        }),
+      yValue: Support.types.Function(function(d) {
           return d[1];
-        },
-      style: false
+        })
     }),margin=$__0.margin,width=$__0.width,height=$__0.height,xValue=$__0.xValue,yValue=$__0.yValue,style=$__0.style;
 
     var margin2 = {top: height-70, right: margin.right, bottom: 20, left: margin.left};
@@ -1029,6 +1271,7 @@ var TimeSeries2Chart = React.createClass({displayName: 'TimeSeries2Chart',
     height = height - margin.top - margin.bottom,
 
     selection.each(function(data) {
+      var w = width===-1?this.offsetWidth:width;
       data = data.map(function(d, i) {
         return [xValue.call(data, d, i), yValue.call(data, d, i)];
       }).sort(function(a, b){
@@ -1041,8 +1284,8 @@ var TimeSeries2Chart = React.createClass({displayName: 'TimeSeries2Chart',
         focus.select(".x.axis").call(xAxis);
       };
 
-      var x = d3.time.scale().range([0, width]),
-          x2 = d3.time.scale().range([0, width]),
+      var x = d3.time.scale().range([0, w]),
+          x2 = d3.time.scale().range([0, w]),
           y = d3.scale.linear().range([height, 0]),
           y2 = d3.scale.linear().range([height2, 0]);
 
@@ -1070,13 +1313,13 @@ var TimeSeries2Chart = React.createClass({displayName: 'TimeSeries2Chart',
       var svg = d3.select(this).selectAll("svg").data([data]);
 
       var svg = svg.enter().append("svg")
-          .attr("width", width + margin.left + margin.right)
+          .attr("width", w + margin.left + margin.right)
           .attr("height", height + margin.top + margin.bottom);
 
       svg.append("defs").append("clipPath")
           .attr("id", "clip")
         .append("rect")
-          .attr("width", width)
+          .attr("width", w)
           .attr("height", height);
 
       var focus = svg.append("g")

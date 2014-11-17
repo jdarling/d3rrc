@@ -12,16 +12,21 @@ var TimeSeries2Chart = React.createClass({
       yValue,
       style
     } = Support.getProps(this, 'chart', {
-      margin: {top: 10, right: 10, bottom: 100, left: 40},
-      width: 1200,
-      height: 400,
-      xValue: function(d) {
+      margin: Support.types.Object({
+                  top: Support.types.Number(10),
+                  right: Support.types.Number(10),
+                  bottom: Support.types.Number(100),
+                  left: Support.types.Number(40)
+                }),
+      width: Support.types.Number(-1),
+      height: Support.types.Number(400),
+      style: Support.types.Object(false),
+      xValue: Support.types.Function(function(d) {
           return d[0];
-        },
-      yValue: function(d) {
+        }),
+      yValue: Support.types.Function(function(d) {
           return d[1];
-        },
-      style: false
+        })
     });
 
     var margin2 = {top: height-70, right: margin.right, bottom: 20, left: margin.left};
@@ -31,6 +36,7 @@ var TimeSeries2Chart = React.createClass({
     height = height - margin.top - margin.bottom,
 
     selection.each(function(data) {
+      var w = width===-1?this.offsetWidth:width;
       data = data.map(function(d, i) {
         return [xValue.call(data, d, i), yValue.call(data, d, i)];
       }).sort(function(a, b){
@@ -43,8 +49,8 @@ var TimeSeries2Chart = React.createClass({
         focus.select(".x.axis").call(xAxis);
       };
 
-      var x = d3.time.scale().range([0, width]),
-          x2 = d3.time.scale().range([0, width]),
+      var x = d3.time.scale().range([0, w]),
+          x2 = d3.time.scale().range([0, w]),
           y = d3.scale.linear().range([height, 0]),
           y2 = d3.scale.linear().range([height2, 0]);
 
@@ -72,13 +78,13 @@ var TimeSeries2Chart = React.createClass({
       var svg = d3.select(this).selectAll("svg").data([data]);
 
       var svg = svg.enter().append("svg")
-          .attr("width", width + margin.left + margin.right)
+          .attr("width", w + margin.left + margin.right)
           .attr("height", height + margin.top + margin.bottom);
 
       svg.append("defs").append("clipPath")
           .attr("id", "clip")
         .append("rect")
-          .attr("width", width)
+          .attr("width", w)
           .attr("height", height);
 
       var focus = svg.append("g")

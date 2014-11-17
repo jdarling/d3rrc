@@ -23,26 +23,31 @@ var PieChart = React.createClass({
       updateSlice,
       exitSlice,
     } = Support.getProps(this, 'chart', {
-      margin: {top: 20, left: 50, bottom: 20, right: 20},
-      width: -1,
-      height: 500,
-      duration: 500,
-      identity: '_id',
-      innerRadius: 0,
-      style: false,
-      onUpdate: false,
-      getValue: function x(d){
+      margin: Support.types.Object({
+                  top: Support.types.Number(20),
+                  right: Support.types.Number(10),
+                  bottom: Support.types.Number(20),
+                  left: Support.types.Number(50)
+                }),
+      width: Support.types.Number(-1),
+      height: Support.types.Number(500),
+      duration: Support.types.Number(500),
+      identity: Support.types.String('_id'),
+      innerRadius: Support.types.Number(0),
+      style: Support.types.Object(false),
+      onUpdate: Support.types.Function(false),
+      getValue: Support.types.Function(function x(d){
         return +d.value;
-      },
-      colorRange: false,
-      color: false,
-      getText: function(d){
+      }),
+      colorRange: Support.types.Function(false),
+      color: Support.types.Function(false),
+      getText: Support.types.Function(function(d){
         return d.text||'';
-      },
-      getIdentity: function(d){
+      }),
+      getIdentity: Support.types.Function(function(d){
         return d.data[identity] || (d.data[identity] = ++idx);
-      },
-      enterSlice: function(node, arc){
+      }),
+      enterSlice: Support.types.Function(function(node, arc){
         node.append('path')
           .style('fill', function(d){
             return color(d.data);
@@ -53,8 +58,8 @@ var PieChart = React.createClass({
           .attr("dy", ".35em")
           .style("text-anchor", "middle")
           .text(function(d) { return getText(d.data); });
-      },
-      updateSlice: function(node, arc){
+      }),
+      updateSlice: Support.types.Function(function(node, arc){
         node.select('path')
           .style('fill', function(d){
             return color(d.data);
@@ -70,9 +75,8 @@ var PieChart = React.createClass({
         node.select('text')
           .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
           .text(function(d) { return getText(d.data); });
-      },
-      exitSlice: function(node, arc){
-      }
+      }),
+      exitSlice: Support.types.Function(function(node, arc){})
     });
 
     color = color || function(d){

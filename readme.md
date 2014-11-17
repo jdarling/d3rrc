@@ -1,10 +1,6 @@
 D3 React Reusable Charts
 ========================
 
-Warning, before you use this, I am reworking the Support.getProps method
-currently.  Don't go adding in new charts until I get that complete as it will
-change how you use it significantly.
-
 Install
 =======
 
@@ -54,10 +50,12 @@ folder with a link from the examples/index.html file to it.  Ideally there
 would be a description of the example as well.  The Source block
 (from //SOURCE DUMP) should be copied from another example into new examples.
 
-Properties should utilize the Support.getProps function.  I know it isn't perfect
-yet, but it will be improved over time.
+Properties should utilize the Support.getProps function.  I know it isn't
+perfect yet, but it will be improved over time and it ensures that the property
+values get converted to the proper types from their default string
+representation.
 
-All Charts should be implemented in JSX in the lib folder and then added to the
+All Charts should be implemented in JSX in the src folder and then added to the
 charts.js file in the root folder.
 
 LICENSE

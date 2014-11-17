@@ -28,27 +28,31 @@ var ScatterChart = React.createClass({
       exitNode,
       style
     } = Support.getProps(this, 'chart', {
-      margin: {top: 30, right: 10, bottom: 50, left: 50},
-      width: -1,
-      height: 420,
-      duration: 500,
-      showXAxis: true,
-      showYAxis: true,
-      identity: '_id',
-      idx: 1,
-      style: false,
-      onUpdate: false,
-      getColor: false,
-      getX: function x(d){
+      margin: Support.types.Object({
+            top: Support.types.Number(30),
+            right: Support.types.Number(10),
+            bottom: Support.types.Number(50),
+            left: Support.types.Number(50)
+          }),
+      width: Support.types.Number(-1),
+      height: Support.types.Number(420),
+      duration: Support.types.Number(500),
+      showXAxis: Support.types.Boolean(true),
+      showYAxis: Support.types.Boolean(true),
+      identity: Support.types.String('_id'),
+      idx: Support.types.Number(1),
+      style: Support.types.Object(false),
+      getColor: Support.types.Function(false),
+      getX: Support.types.Function(function x(d){
         return d.x;
-      },
-      getY: function y(d){
+      }),
+      getY: Support.types.Function(function y(d){
         return d.y;
-      },
-      getR: function(d){
+      }),
+      getR: Support.types.Function(function(d){
         return 8;
-      },
-      getScaleX: function(data, w){
+      }),
+      getScaleX: Support.types.Function(function(data, w){
         var min = d3.min(data, getX), max = d3.max(data, getX);
         var r = ((max - min) * 0.1) || 1;
         min -= r;
@@ -57,8 +61,8 @@ var ScatterChart = React.createClass({
           .domain([min, max])
           .range([0, w])
           ;
-      },
-      getScaleY: function(data, h){
+      }),
+      getScaleY: Support.types.Function(function(data, h){
         var min = d3.min(data, getY), max = d3.max(data, getY);
         var r = ((max - min) * 0.1) || 1;
         min -= r;
@@ -67,12 +71,12 @@ var ScatterChart = React.createClass({
           .domain([max, min])
           .range([0,h])
           ;
-      },
-      getColor: function(d){
+      }),
+      getColor: Support.types.Function(function(d){
         return 'black';
-      },
-      getText: function(d){ return d.text||''; },
-      enterNode: function(node){
+      }),
+      getText: Support.types.Function(function(d){ return d.text||''; }),
+      enterNode: Support.types.Function(function(node){
         var circle = node.append('svg:circle')
             .attr('r', 1e-6);
 
@@ -85,22 +89,21 @@ var ScatterChart = React.createClass({
             .attr('dy', function(d){return -getR(d)-3})
             .text(getText)
             .style('fill-opacity', 1);
-      },
-      updateNode: function(node){
+      }),
+      updateNode: Support.types.Function(function(node){
         node.select('text')
           .text(getText);
 
         node.select('circle')
             .attr('r', getR);
-      },
-      exitNode: function(node){
+      }),
+      exitNode: Support.types.Function(function(node){
         node.select('circle')
             .attr('r', 1e-6);
 
         node.select('text')
             .style('fill-opacity', 1e-6);
-      },
-      style: false
+      })
     });
 
     selection.each(function(data){

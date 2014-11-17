@@ -25,19 +25,24 @@ var TimeSeriesChart = React.createClass({
       line,
       style
     } = Support.getProps(this, 'chart', {
-      margin: {top: 20, right: 20, bottom: 20, left: 20},
-      width: 760,
-      height: 120,
-      xValue: function(d) {
+      margin: Support.types.Object({
+                  top: Support.types.Number(20),
+                  right: Support.types.Number(20),
+                  bottom: Support.types.Number(20),
+                  left: Support.types.Number(20)
+                }),
+      width: Support.types.Number(760),
+      height: Support.types.Number(120),
+      style: Support.types.Object(false),
+      xValue: Support.types.Function(function(d) {
           return d[0];
-        },
-      yValue: function(d) {
+        }),
+      yValue: Support.types.Function(function(d) {
           return d[1];
-        },
-      xScale: _scale,
-      yScale: lscale,
-      xAxis: d3.svg.axis().scale(_scale).orient("bottom").tickSize(6, 0),
-      style: false
+        }),
+      xScale: Support.types.Function(_scale),
+      yScale: Support.types.Function(lscale),
+      xAxis: Support.types.Function(d3.svg.axis().scale(_scale).orient("bottom").tickSize(6, 0))
     });
     var area = d3.svg.area().x(_X).y1(_Y);
     var line = d3.svg.line().x(_X).y(_Y);
