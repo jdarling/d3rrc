@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+  <head>
+    <script type="text/javascript" src="../../dist/build.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.12.0.js"></script>
+    <style>
+    .line {
+      fill: none;
+      stroke: black;
+      stroke-width: 1.5px;
+    }
+    .area {
+      fill: steelblue;
+    }
+    </style>
+  </head>
+  <body>
+    <h1>Time Series Chart</h1>
+    <div id="output"></div>
+    <script type="text/jsx">
+      var React = Charts.React;
+      var TimeSeriesChart = Charts.TimeSeriesChart;
+
+      var data = (function(size){
+        var data = [], day;
+        var i=0, l=size;
+        for(; i<l; i++){
+          day = Math.floor(Math.random() * 30)+1;
+          data.push([
+            new Date('05/'+day+'/2014'),
+            Math.floor(Math.random() * 90)+10
+          ]);
+        }
+        return data;
+      })(10);
+      React.render(
+        <TimeSeriesChart
+          chart-width="760"
+          chart-height="120"
+          data={data}
+          />,
+        document.getElementById('output')
+      );
+      //SOURCE DUMP
+      var src = document.querySelector('[type="text/jsx"]').innerText
+                  .split('//SOURCE DUMP').shift();
+      var pre = document.createElement('pre');
+      var ws = src.match(/[ \t]+/).shift();
+      var reWS = new RegExp('^'+ws, 'gm');
+      var header = document.createElement('h2');
+      header.innerText = 'Source';
+      pre.style.padding="10px 10px 10px 10px";
+      pre.style.margin="0px 0px 0px 0px";
+      pre.style.background='silver';
+      pre.style.border='1px solid black';
+      pre.appendChild(document.createTextNode(src.replace(reWS, '').trim()));
+      document.body.appendChild(header);
+      document.body.appendChild(pre);
+    </script>
+  </body>
+</html>

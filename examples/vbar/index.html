@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+  <head>
+    <script type="text/javascript" src="../../dist/build.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.12.0.js"></script>
+    <style>
+      rect.positive{
+        fill: steelblue;
+      }
+      rect.negative{
+        fill: brown;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Bar Chart</h1>
+    <div id="output"></div>
+    <script type="text/jsx">
+      var React = Charts.React;
+      var VBarChart = Charts.VBarChart;
+
+      var getX = function(d){
+          return d.text;
+        };
+      var getY = function(d){
+          return d.value||0;
+        };
+      var data = (function(size){
+        var data = [];
+        var i=0, l=size;
+        for(; i<l; i++){
+          data.push({
+            value: Math.floor(Math.random() * 90)-40,
+            text: "Test "+i
+          });
+        }
+        return data;
+      })(10);
+      var styles={
+        '.axis path': 'fill: none; stroke: blue; shape-rendering: crispEdges;',
+        '.axis line': 'fill: none; stroke: blue; shape-rendering: crispEdges;'
+      };
+      React.render(
+        <VBarChart
+          chart-width="480"
+          chart-height="320"
+          chart-xValue={getX}
+          chart-yValue={getY}
+          chart-style={styles}
+          data={data}
+          />,
+        document.getElementById('output')
+      );
+      //SOURCE DUMP
+      var src = document.querySelector('[type="text/jsx"]').innerText
+                  .split('//SOURCE DUMP').shift();
+      var pre = document.createElement('pre');
+      var ws = src.match(/[ \t]+/).shift();
+      var reWS = new RegExp('^'+ws, 'gm');
+      var header = document.createElement('h2');
+      header.innerText = 'Source';
+      pre.style.padding="10px 10px 10px 10px";
+      pre.style.margin="0px 0px 0px 0px";
+      pre.style.background='silver';
+      pre.style.border='1px solid black';
+      pre.appendChild(document.createTextNode(src.replace(reWS, '').trim()));
+      document.body.appendChild(header);
+      document.body.appendChild(pre);
+    </script>
+  </body>
+</html>
