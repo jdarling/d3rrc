@@ -4,7 +4,7 @@ D3 React Reusable Charts
 Latest Update
 -------------
 
-  * v0.0.4 - Fix TimeSeries & TimeSeries2 width of -1 to calculate width
+  * v0.0.5 - Fix TimeSeries2 height
 
 Install
 =======
@@ -66,6 +66,7 @@ charts.js file in the root folder.
 HISTORY
 =======
 
+  * v0.0.5 - Fix TimeSeries2 height
   * v0.0.4 - Fix TimeSeries & TimeSeries2 width of -1 to calculate width
   * v0.0.3 - Introduced new Line Chart, cleanup work on coloring and width layouts
 
