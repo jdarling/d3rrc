@@ -1521,7 +1521,7 @@ var TimeSeries2Chart = React.createClass({displayName: 'TimeSeries2Chart',
     var margin2 = {top: height-70, right: margin.right, bottom: 20, left: margin.left};
     var height2 = height - margin2.top - margin2.bottom;
 
-    var h = height - margin.top - margin.bottom - 70;
+    var h = height - margin.top - margin.bottom;
 
     selection.each(function(data) {
       var w = (width===-1?this.offsetWidth:width) - margin.left - margin.right;
