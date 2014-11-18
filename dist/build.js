@@ -1381,7 +1381,7 @@ var TimeSeriesChart = React.createClass({displayName: 'TimeSeriesChart',
                   bottom: Support.types.Number(20),
                   left: Support.types.Number(20)
                 }),
-      width: Support.types.Number(760),
+      width: Support.types.Number(-1),
       height: Support.types.Number(120),
       style: Support.types.Object(false),
       xValue: Support.types.Function(function(d) {
@@ -1398,7 +1398,7 @@ var TimeSeriesChart = React.createClass({displayName: 'TimeSeriesChart',
     var line = d3.svg.line().x(_X).y(_Y);
 
     selection.each(function(data) {
-
+      var w = width===-1?this.offsetWidth:width;
 
       // Convert data to standard representation greedily;
       // this is needed for nondeterministic accessors.
@@ -1411,7 +1411,7 @@ var TimeSeriesChart = React.createClass({displayName: 'TimeSeriesChart',
       // Update the x-scale.
       xScale
           .domain(d3.extent(data, function(d) { return d[0]; }))
-          .range([0, width - margin.left - margin.right]);
+          .range([0, w - margin.left - margin.right]);
 
       // Update the y-scale.
       yScale
@@ -1428,7 +1428,7 @@ var TimeSeriesChart = React.createClass({displayName: 'TimeSeriesChart',
       gEnter.append("g").attr("class", "x axis");
 
       // Update the outer dimensions.
-      svg .attr("width", width)
+      svg .attr("width", w)
           .attr("height", height);
 
       // Update the inner dimensions.
@@ -1521,11 +1521,11 @@ var TimeSeries2Chart = React.createClass({displayName: 'TimeSeries2Chart',
     var margin2 = {top: height-70, right: margin.right, bottom: 20, left: margin.left};
     var height2 = height - margin2.top - margin2.bottom;
 
-    width = width - margin.left - margin.right,
-    height = height - margin.top - margin.bottom,
+    var h = height - margin.top - margin.bottom - 70;
 
     selection.each(function(data) {
-      var w = width===-1?this.offsetWidth:width;
+      var w = (width===-1?this.offsetWidth:width) - margin.left - margin.right;
+
       data = data.map(function(d, i) {
         return [xValue.call(data, d, i), yValue.call(data, d, i)];
       }).sort(function(a, b){
@@ -1540,7 +1540,7 @@ var TimeSeries2Chart = React.createClass({displayName: 'TimeSeries2Chart',
 
       var x = d3.time.scale().range([0, w]),
           x2 = d3.time.scale().range([0, w]),
-          y = d3.scale.linear().range([height, 0]),
+          y = d3.scale.linear().range([h, 0]),
           y2 = d3.scale.linear().range([height2, 0]);
 
       var xAxis = d3.svg.axis().scale(x).orient("bottom"),
@@ -1554,7 +1554,7 @@ var TimeSeries2Chart = React.createClass({displayName: 'TimeSeries2Chart',
       var area = d3.svg.area()
           .interpolate("monotone")
           .x(function(d) { return x(d[0]); })
-          .y0(height)
+          .y0(h)
           .y1(function(d) { return y(d[1]); });
 
       var area2 = d3.svg.area()
@@ -1567,14 +1567,14 @@ var TimeSeries2Chart = React.createClass({displayName: 'TimeSeries2Chart',
       var svg = d3.select(this).selectAll("svg").data([data]);
 
       var svg = svg.enter().append("svg")
-          .attr("width", w + margin.left + margin.right)
-          .attr("height", height + margin.top + margin.bottom);
+          .attr("width", w + margin.left + margin.top)
+          .attr("height", h + margin.top + margin.bottom);
 
       svg.append("defs").append("clipPath")
           .attr("id", "clip")
         .append("rect")
           .attr("width", w)
-          .attr("height", height);
+          .attr("height", h);
 
       var focus = svg.append("g")
           .attr("class", "focus")
@@ -1596,7 +1596,7 @@ var TimeSeries2Chart = React.createClass({displayName: 'TimeSeries2Chart',
 
       focus.append("g")
           .attr("class", "x axis")
-          .attr("transform", "translate(0," + height + ")")
+          .attr("transform", "translate(0," + h + ")")
           .call(xAxis);
 
       focus.append("g")

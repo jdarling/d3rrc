@@ -1,10 +1,10 @@
 D3 React Reusable Charts
 ========================
 
-Latest Updates
---------------
+Latest Update
+-------------
 
-  * v0.0.3 - Introduced new Line Chart, cleanup work on coloring and width layouts
+  * v0.0.4 - Fix TimeSeries & TimeSeries2 width of -1 to calculate width
 
 Install
 =======
@@ -62,6 +62,13 @@ representation.
 
 All Charts should be implemented in JSX in the src folder and then added to the
 charts.js file in the root folder.
+
+HISTORY
+=======
+
+  * v0.0.4 - Fix TimeSeries & TimeSeries2 width of -1 to calculate width
+  * v0.0.3 - Introduced new Line Chart, cleanup work on coloring and width layouts
+
 
 LICENSE
 =======

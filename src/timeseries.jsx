@@ -31,7 +31,7 @@ var TimeSeriesChart = React.createClass({
                   bottom: Support.types.Number(20),
                   left: Support.types.Number(20)
                 }),
-      width: Support.types.Number(760),
+      width: Support.types.Number(-1),
       height: Support.types.Number(120),
       style: Support.types.Object(false),
       xValue: Support.types.Function(function(d) {
@@ -48,7 +48,7 @@ var TimeSeriesChart = React.createClass({
     var line = d3.svg.line().x(_X).y(_Y);
 
     selection.each(function(data) {
-
+      var w = width===-1?this.offsetWidth:width;
 
       // Convert data to standard representation greedily;
       // this is needed for nondeterministic accessors.
@@ -61,7 +61,7 @@ var TimeSeriesChart = React.createClass({
       // Update the x-scale.
       xScale
           .domain(d3.extent(data, function(d) { return d[0]; }))
-          .range([0, width - margin.left - margin.right]);
+          .range([0, w - margin.left - margin.right]);
 
       // Update the y-scale.
       yScale
@@ -78,7 +78,7 @@ var TimeSeriesChart = React.createClass({
       gEnter.append("g").attr("class", "x axis");
 
       // Update the outer dimensions.
-      svg .attr("width", width)
+      svg .attr("width", w)
           .attr("height", height);
 
       // Update the inner dimensions.
