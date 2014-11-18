@@ -476,7 +476,7 @@ var LineChart = React.createClass({displayName: 'LineChart',
       var maxChartHeight = height - margin.top - margin.bottom;
 
       w = svgWidth - margin.left - margin.right;
-console.log('svg width: ', svgWidth, w, this, this.offsetWidth, width);
+
       x.range([0, w]);
       xAxis.scale(x);
 
