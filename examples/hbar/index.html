@@ -11,10 +11,6 @@
     <script type="text/jsx">
       var React = Charts.React;
       var HBarChart = Charts.HBarChart;
-      var color = function(d){
-        console.log('d', d);
-        return 'red';
-      };//Charts.d3.scale.category10();
 
       var names = function(d){
           return d.text;
@@ -38,7 +34,6 @@
       };
       React.render(
         <HBarChart
-          chart-width="480"
           chart-height="320"
           chart-names={names}
           chart-values={values}
