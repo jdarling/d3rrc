@@ -4,44 +4,68 @@
   <head>
     <script type="text/javascript" src="../../dist/build.js"></script>
     <script src="http://fb.me/JSXTransformer-0.12.0.js"></script>
+    <style>
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+      }
+
+      .x.axis path {
+        display: none;
+      }
+
+      .line {
+        fill: none;
+        stroke: steelblue;
+        stroke-width: 1.5px;
+      }
+    </style>
   </head>
   <body>
-    <h1>Bar Chart</h1>
+    <h1>Multi Line Chart</h1>
     <div id="output"></div>
     <script type="text/jsx">
       var React = Charts.React;
-      var HBarChart = Charts.HBarChart;
-      var color = function(d){
-        console.log('d', d);
-        return 'red';
-      };//Charts.d3.scale.category10();
+      var LineChart = Charts.LineChart;
 
-      var names = function(d){
+      var seriesNames = function(d){
+          return d.name;
+        };
+      var seriesValues = function(d){
+          return d.values;
+        };
+      var pointNames = function(d){
           return d.text;
         };
-      var values = function(d){
+      var pointValues = function(d){
           return d.value||0;
         };
-      var data = (function(size){
-        var data = [];
-        var i=0, l=size;
-        for(; i<l; i++){
-          data.push({
-            value: Math.floor(Math.random() * 90)+10,
-            text: "Test "+i
-          });
+      var data = (function(num, size){
+        var data = [], series;
+        var i, l=size, j=0, k=num;
+        for(; j<k; j++){
+          series = {name: 'Series '+j, values: []};
+          for(i=0; i<l; i++){
+            series.values.push({
+              value: Math.floor(Math.random() * 90)+10,
+              text: "Series "+j+" - Value "+i
+            });
+          }
+          data.push(series);
         }
         return data;
-      })(10);
-      var styles={
-        '.bar rect': 'fill: steelblue; shape-rendering: crispEdges;',
-      };
+      })(3, 10);
+      
       React.render(
-        <HBarChart
+        <LineChart
           chart-width="480"
           chart-height="320"
-          chart-names={names}
-          chart-values={values}
+          chart-seriesNames={seriesNames}
+          chart-seriesValues={seriesValues}
+          chart-pointNames={pointNames}
+          chart-pointValues={pointValues}
           data={data}
           />,
         document.getElementById('output')

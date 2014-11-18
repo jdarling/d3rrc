@@ -2,6 +2,7 @@ var Charts = {
   ChartTitle: require('./lib/title').ChartTitle,
   VBarChart: require('./lib/bar').VBarChart,
   HBarChart: require('./lib/bar').HBarChart,
+  LineChart: require('./lib/line').LineChart,
   PieChart: require('./lib/pie').PieChart,
   PieChart: require('./lib/pie').PieChart,
   TimeSeriesChart: require('./lib/timeseries').TimeSeriesChart,

@@ -13,7 +13,7 @@ var VBarChart = React.createClass({
       values,
       xAxisBottom,
       duration,
-      getColor,
+      color,
       enterBar,
       updateBar,
       exitBar,
@@ -31,13 +31,15 @@ var VBarChart = React.createClass({
       names: Support.types.Function(function(d) { return d[0]; }),
       values: Support.types.Function(function(d) { return d[1]; }),
       duration: Support.types.Number(500),
-      getColor: Support.types.Function(false),
+      color: Support.types.Function(false),
       enterBar: Support.types.Function(function(bar){
         bar = bar.append('rect')
           .attr('class', function(d, i) { return values(d) < 0 ? 'negative' : 'positive'; })
           ;
-        if(getColor){
-          bar.style('fill', getColor);
+        if(color){
+          bar.style('fill', function(d){
+            return color(names(d));
+          });
         }
       }),
       updateBar: Support.types.Function(function(bar){
@@ -184,7 +186,7 @@ var HBarChart = React.createClass({
       names,
       values,
       duration,
-      getColor,
+      color,
       enterBar,
       updateBar,
       exitBar,
@@ -201,13 +203,15 @@ var HBarChart = React.createClass({
       names: Support.types.Function(function(d) { return d[0]; }),
       values: Support.types.Function(function(d) { return d[1]; }),
       duration: Support.types.Number(500),
-      getColor: Support.types.Function(false),
+      color: Support.types.Function(d3.scale.category10()),
       enterBar: Support.types.Function(function(bar){
           bar = bar.append('rect')
             .attr('class', 'bar')
             ;
-          if(getColor){
-            bar.style('fill', getColor);
+          if(color){
+            bar.style('fill', function(d){
+              return color(names(d));
+            });
           }
         }),
       updateBar: Support.types.Function(function(bar){
@@ -233,6 +237,11 @@ var HBarChart = React.createClass({
     selection.each(function(data) {
       var w = width===-1?this.offsetWidth:width;
       var maxChartHeight = height - margin.top - margin.bottom;
+
+      if(color&&color.domain){
+        var cnames = data.map(names);
+        color.domain(cnames);
+      }
 
       var svg = d3.select(this).selectAll('svg').data([data]);
       svg.enter().append('svg')
@@ -291,7 +300,6 @@ var HBarChart = React.createClass({
                 .attr("fill", "black");
 
       if(style){
-        console.log(style);
         Object.keys(style).forEach(function(key){
           svg.selectAll(key).attr('style', style[key]);
         });
