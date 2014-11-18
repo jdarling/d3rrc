@@ -1,6 +1,11 @@
 D3 React Reusable Charts
 ========================
 
+Latest Updates
+--------------
+
+  * v0.0.3 - Introduced new Line Chart, cleanup work on coloring and width layouts
+
 Install
 =======
 
