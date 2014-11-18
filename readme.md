@@ -17,7 +17,7 @@ Examples
 ========
 
 See the examples folder.  You can also use RawGit to view them live at:
-http://cdn.rawgit.com/jdarling/d3rrc/master/examples/index.html
+http://rawgit.com/jdarling/d3rrc/master/examples/index.html
 
 Usage
 =====
