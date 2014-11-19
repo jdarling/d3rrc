@@ -1,6 +1,6 @@
 {
   "name": "d3rrc",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Reusable D3 Charts for React.js",
   "main": "charts.js",
   "scripts": {
