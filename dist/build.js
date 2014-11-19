@@ -467,7 +467,7 @@ var LineChart = React.createClass({displayName: 'LineChart',
         .orient('left');
 
     var line = d3.svg.line()
-        .interpolate('lineInterpolation') // a B-spline, with control point duplication on the ends
+        .interpolate(lineInterpolation) // a B-spline, with control point duplication on the ends
         .x(function(d, i) { return x(pointIndexes(d, i)); })
         .y(function(d, i) { return y(pointValues(d, i)); });
 
@@ -1518,10 +1518,10 @@ var TimeSeries2Chart = React.createClass({displayName: 'TimeSeries2Chart',
         })
     }),margin=$__0.margin,width=$__0.width,height=$__0.height,xValue=$__0.xValue,yValue=$__0.yValue,style=$__0.style;
 
-    var margin2 = {top: height-70, right: margin.right, bottom: 20, left: margin.left};
+    var margin2 = {top: height, right: margin.right, bottom: 20, left: margin.left};
     var height2 = height - margin2.top - margin2.bottom;
 
-    var h = height - margin.top - margin.bottom;
+    var h = height - margin.top - margin.bottom - 70;
 
     selection.each(function(data) {
       var w = (width===-1?this.offsetWidth:width) - margin.left - margin.right;
