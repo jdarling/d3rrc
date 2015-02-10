@@ -4,7 +4,7 @@ D3 React Reusable Charts
 Latest Update
 -------------
 
-  * v0.0.6 - Fix Line Chart interpolation
+  * v0.0.7 - Upgrade to React v0.13.0
 
 Install
 =======
@@ -66,6 +66,7 @@ charts.js file in the root folder.
 HISTORY
 =======
 
+  * v0.0.7 - Upgrade to React v0.13.0
   * v0.0.6 - Fix Line Chart interpolation
   * v0.0.5 - Fix TimeSeries2 height
   * v0.0.4 - Fix TimeSeries & TimeSeries2 width of -1 to calculate width
