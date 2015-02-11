@@ -4,6 +4,7 @@ var reactify = require('reactify');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var rename = require('gulp-rename');
+var webserver = require('gulp-webserver');
 
 var watching = false;
 var handleError = function(err){
@@ -13,6 +14,15 @@ var handleError = function(err){
   }
   return process.exit(1);
 }
+
+gulp.task('webserver', function() {
+  gulp.src('./')
+    .pipe(webserver({
+      livereload: true,
+      fallback: 'examples/index.html',
+      open: true
+    }));
+});
 
 gulp.task('jsx', function(){
   return gulp.src('src/**/*.jsx')
@@ -43,7 +53,7 @@ gulp.task('watch', function(){
   gulp.watch('./charts.js', ['js']);
   gulp.watch('src/lib/**/*.js', ['js']);
 
-  gulp.start('jsx', 'js');
+  gulp.start('jsx', 'js', 'webserver');
 });
 
 gulp.task('default', function() {
