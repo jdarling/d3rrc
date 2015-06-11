@@ -3,7 +3,7 @@
 <html>
   <head>
     <script type="text/javascript" src="../../dist/build.js"></script>
-    <script src="http://fb.me/JSXTransformer-0.12.0.js"></script>
+    <script src="../js/JSXTransformer.js"></script>
     <style>
       .axis path,
       .axis line {
@@ -40,8 +40,11 @@
           return d.text;
         };
       var pointValues = function(d){
-          return d.value||0;
+          return d.value;
         };
+      var pointIndexes = function(d, i){
+        return d.index;
+      };
       var data = (function(num, size){
         var data = [], series;
         var i, l=size, j=0, k=num;
@@ -50,26 +53,60 @@
           for(i=0; i<l; i++){
             series.values.push({
               value: Math.floor(Math.random() * 90)+10,
-              text: "Series "+j+" - Value "+i
+              text: "Series "+j+" - Value "+i,
+              index: i
             });
+            series.max = i;
           }
+          series.num = j;
           data.push(series);
         }
         return data;
-      })(3, 10);
+      })(2, 10);
+
+      var Demo = React.createClass({
+        getInitialState(){
+          return {
+            data: this.props.data||[]
+          }
+        },
+        componentDidMount(){
+          setInterval(function(){
+            var data = this.state.data;
+            data.forEach(function(series){
+              var val = {
+                value: Math.floor(Math.random() * 90)+10,
+                text: "Series "+series.num+" - Value "+series.max,
+                index: series.max
+              };
+              var old = series.values.shift();
+              series.max++;
+              series.values.push(val);
+            });
+            this.setState({
+              data: data
+            });
+          }.bind(this), 1000);
+        },
+        render(){
+          return (<LineChart
+            chart-height="320"
+            chart-seriesNames={seriesNames}
+            chart-seriesValues={seriesValues}
+            chart-pointNames={pointNames}
+            chart-pointValues={pointValues}
+            chart-pointIndexes={pointIndexes}
+            chart-lineInterpolation="cardinal"
+            data={this.state.data}
+            />);
+        }
+      });
 
       React.render(
-        <LineChart
-          chart-height="320"
-          chart-seriesNames={seriesNames}
-          chart-seriesValues={seriesValues}
-          chart-pointNames={pointNames}
-          chart-pointValues={pointValues}
-          chart-lineInterpolation="cardinal"
-          data={data}
-          />,
+        <Demo data={data} />,
         document.getElementById('output')
       );
+
       //SOURCE DUMP
       var src = document.querySelector('[type="text/jsx"]').innerText
                   .split('//SOURCE DUMP').shift();

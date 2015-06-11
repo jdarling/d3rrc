@@ -25,6 +25,7 @@
     "vinyl-source-stream": "^1.0.0"
   },
   "dependencies": {
-    "d3": "^3.5.3"
+    "d3": "^3.5.3",
+    "react": "^0.13.3"
   }
 }
