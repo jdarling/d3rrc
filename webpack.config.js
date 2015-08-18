@@ -2,7 +2,7 @@ module.exports = {
   entry: './charts.js',
   output: {
     filename: 'dist/bundle.js',
-    publicPath: 'http://localhost:8090/assets'
+    publicPath: 'http://localhost:8090/'
   },
   module: {
     loaders: [

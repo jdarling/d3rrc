@@ -9,12 +9,11 @@ var Charts = {
   TimeSeries2Chart: require('./src/timeseries2.jsx').TimeSeries2Chart,
   ScatterChart: require('./src/scatter.jsx').ScatterChart,
   d3: require('d3'),
-  React: require('react/addons')
+  //React: require('react/addons')
 };
 
 module.exports = Charts;
 
-console.log('LOADED: ', typeof(window));
 if(typeof(window)==='object'){
   window.D3RRC = Charts;
 }
