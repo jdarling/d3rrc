@@ -1,15 +1,20 @@
 var Charts = {
-  ChartTitle: require('./lib/title').ChartTitle,
-  VBarChart: require('./lib/bar').VBarChart,
-  HBarChart: require('./lib/bar').HBarChart,
-  LineChart: require('./lib/line').LineChart,
-  PieChart: require('./lib/pie').PieChart,
-  PieChart: require('./lib/pie').PieChart,
-  TimeSeriesChart: require('./lib/timeseries').TimeSeriesChart,
-  TimeSeries2Chart: require('./lib/timeseries2').TimeSeries2Chart,
-  ScatterChart: require('./lib/scatter').ScatterChart,
+  ChartTitle: require('./src/title.jsx').ChartTitle,
+  VBarChart: require('./src/bar.jsx').VBarChart,
+  HBarChart: require('./src/bar.jsx').HBarChart,
+  LineChart: require('./src/line.jsx').LineChart,
+  PieChart: require('./src/pie.jsx').PieChart,
+  PieChart: require('./src/pie.jsx').PieChart,
+  TimeSeriesChart: require('./src/timeseries.jsx').TimeSeriesChart,
+  TimeSeries2Chart: require('./src/timeseries2.jsx').TimeSeries2Chart,
+  ScatterChart: require('./src/scatter.jsx').ScatterChart,
   d3: require('d3'),
   React: require('react/addons')
 };
 
 module.exports = Charts;
+
+console.log('LOADED: ', typeof(window));
+if(typeof(window)==='object'){
+  window.D3RRC = Charts;
+}

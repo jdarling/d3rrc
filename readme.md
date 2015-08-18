@@ -22,11 +22,14 @@ http://rawgit.com/jdarling/d3rrc/master/examples/index.html
 Usage
 =====
 
-d3rrc is designed to work with browserify.  It can also be used as a stand alone
-javascript file (just download the build.js file and include it in your project).
+d3rrc 1.x.x is designed to work with webpack.  It can also be used as a stand alone
+javascript file (just download the bundle.js file and include it in your project).
 
-If you use the build.js file know that it includes the supported version of
-React/Addons, D3, and all of the support libraries utilized.
+If you use the bundle.js file know that after version 1.x.x it
+NO LONGER includes the supported version of React/Addons
+but still includes D3, and all of the support libraries utilized.
+
+You should have your own version of React loaded with your project.
 
 Feel free to create your own custom build.
 
@@ -66,6 +69,7 @@ charts.js file in the root folder.
 HISTORY
 =======
 
+  * v1.0.0 - Changed to Webpack, removed React from direct dependencies, upgraded to React v0.13.3
   * v0.0.7 - Upgrade to React v0.13.0
   * v0.0.6 - Fix Line Chart interpolation
   * v0.0.5 - Fix TimeSeries2 height

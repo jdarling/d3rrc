@@ -4,6 +4,10 @@
   "description": "Reusable D3 Charts for React.js",
   "main": "charts.js",
   "scripts": {
+    "start": "npm run serve | npm run dev",
+    "serve": "./node_modules/.bin/http-server -p 8081",
+    "dev": "./node_modules/.bin/webpack-dev-server --progress --colors --port 8090",
+    "build": "./node_modules/.bin/webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -15,14 +19,11 @@
   "author": "Jeremy Darling <Jeremy.Darling@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "browserify": "^6.3.2",
-    "gulp": "^3.8.10",
-    "gulp-react": "^2.0.0",
-    "gulp-rename": "^1.2.0",
-    "gulp-webserver": "^0.9.0",
+    "http-server": "^0.8.0",
+    "jsx-loader": "^0.13.2",
     "react": "^0.13.3",
-    "reactify": "^0.16.0",
-    "vinyl-source-stream": "^1.0.0"
+    "webpack": "^1.11.0",
+    "webpack-dev-server": "^1.10.1"
   },
   "dependencies": {
     "d3": "^3.5.3"

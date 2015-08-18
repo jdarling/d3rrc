@@ -2,15 +2,15 @@
 <meta charset="utf-8">
 <html>
   <head>
-    <script type="text/javascript" src="../../dist/build.js"></script>
+    <script type="text/javascript" src="../../node_modules/react/dist/react-with-addons.js"></script>
+    <script type="text/javascript" src="../../dist/bundle.js"></script>
     <script src="../js/JSXTransformer.js"></script>
   </head>
   <body>
     <h1>Donut Chart</h1>
     <div id="output"></div>
     <script type="text/jsx">
-      var React = Charts.React;
-      var PieChart = Charts.PieChart;
+      var PieChart = D3RRC.PieChart;
 
       var data = (function(size){
         var data = [];
