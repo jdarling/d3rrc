@@ -8,6 +8,15 @@ Latest Updates
   * v1.0.1 - Examples updates
   * v1.0.0 - Changed to Webpack, removed React from direct dependencies, upgraded to React v0.13.3
 
+Planned Features
+----------------
+
+v1.1.x
+  * Accessibility within existing chart types
+    * Screen reader support
+    * Alternate color pallet support
+    * More info at https://docs.google.com/document/d/1yu83h6ibrTcRRNtdp8-g991pUE9rQ3kRJuxlOw8LZ90/edit?usp=sharing
+
 Install
 =======
 
