@@ -33,16 +33,55 @@ You should have your own version of React loaded with your project.
 
 Feel free to create your own custom build.
 
+Development
+====
+
+```
+npm start
+```
+
+Development server is now running on http://localhost:8090/
+
+Browse the examples at http://localhost:8090/examples/
+
+Create dist/bundle.js
+====
+
+```
+npm run-script build
+```
+
 Why?
 ====
 
 D3+Reusable Charts API+React=Easy Charts
 
-Charts
+Chart Types
 ======
 
-For now see the examples directory for the charts and how to use them.  More
-details will be coming soon.
+###Pie
+
+A type of graph in which a circle is divided into sectors that each represent a proportion of the whole.
+
+###Donut
+
+A type of graph in which a circle is divided into sectors that each represent a proportion of the whole.  The big difference between the Donut and the Pie Chart is that the Donut has the center cut out.
+
+###Bar
+
+A bar chart or bar graph is a chart that presents Grouped data with rectangular bars with lengths proportional to the values that they represent. The bars can be plotted vertically or horizontally.
+
+###Line
+
+A line chart or line graph is a type of chart which displays information as a series of data points called 'markers' connected by straight line segments. It is a basic type of chart common in many fields.
+
+###Scatter
+
+A scatter chart (or scatter plot) is a set of individual dots on a two-dimensional chart. You can optionally specify the size of the individual dots. A scatter plot can accept only one data series.
+
+###Time Series
+
+A time series is a sequence of data points, typically consisting of successive measurements made over a time interval. Examples of time series are ocean tides, counts of sunspots, and the daily closing value of the Dow Jones Industrial Average.
 
 HELP!
 =====

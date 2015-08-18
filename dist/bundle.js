@@ -33389,10 +33389,10 @@
 	        })
 	    }),margin=$__0.margin,width=$__0.width,height=$__0.height,xValue=$__0.xValue,yValue=$__0.yValue,style=$__0.style;
 
-	    var margin2 = {top: height, right: margin.right, bottom: 20, left: margin.left};
+	    var margin2 = {top: height-margin.bottom+20, right: margin.right, bottom: 20, left: margin.left};
 	    var height2 = height - margin2.top - margin2.bottom;
 
-	    var h = height - margin.top - margin.bottom - 70;
+	    var h = height - margin.top - margin.bottom;
 
 	    selection.each(function(data) {
 	      var w = (width===-1?this.offsetWidth:width) - margin.left - margin.right;
@@ -33433,7 +33433,6 @@
 	          .x(function(d) { return x2(d[0]); })
 	          .y0(height2)
 	          .y1(function(d) { return y2(d[1]); });
-
 
 	      var svg = d3.select(this).selectAll("svg").data([data]);
 
