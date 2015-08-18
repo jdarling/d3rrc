@@ -4,7 +4,7 @@ D3 React Reusable Charts
 Latest Update
 -------------
 
-  * v0.0.7 - Upgrade to React v0.13.0
+  * v1.0.1 - Changed to Webpack, removed React from direct dependencies, upgraded to React v0.13.3
 
 Install
 =======
@@ -69,6 +69,7 @@ charts.js file in the root folder.
 HISTORY
 =======
 
+  * v1.0.1 - Fixed examples
   * v1.0.0 - Changed to Webpack, removed React from direct dependencies, upgraded to React v0.13.3
   * v0.0.7 - Upgrade to React v0.13.0
   * v0.0.6 - Fix Line Chart interpolation

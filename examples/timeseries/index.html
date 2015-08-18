@@ -2,7 +2,8 @@
 <meta charset="utf-8">
 <html>
   <head>
-    <script type="text/javascript" src="../../dist/build.js"></script>
+    <script type="text/javascript" src="../js/react-with-addons.js"></script>
+    <script type="text/javascript" src="../../dist/bundle.js"></script>
     <script src="../js/JSXTransformer.js"></script>
     <style>
     .line {
@@ -19,8 +20,7 @@
     <h1>Time Series Chart</h1>
     <div id="output"></div>
     <script type="text/jsx">
-      var React = Charts.React;
-      var TimeSeriesChart = Charts.TimeSeriesChart;
+      var TimeSeriesChart = D3RRC.TimeSeriesChart;
 
       var data = (function(size){
         var data = [], day;

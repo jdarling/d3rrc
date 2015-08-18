@@ -2,7 +2,8 @@
 <meta charset="utf-8">
 <html>
   <head>
-    <script type="text/javascript" src="../../dist/build.js"></script>
+    <script type="text/javascript" src="../js/react-with-addons.js"></script>
+    <script type="text/javascript" src="../../dist/bundle.js"></script>
     <script src="../js/JSXTransformer.js"></script>
   </head>
   <body>
@@ -10,8 +11,7 @@
     <div id="output"></div>
     <div id="table"></div>
     <script type="text/jsx">
-      var React = Charts.React;
-      var HBarChart = Charts.HBarChart;
+      var HBarChart = D3RRC.HBarChart;
 
       var names = function(d){
           return d.text;

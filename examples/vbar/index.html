@@ -2,7 +2,8 @@
 <meta charset="utf-8">
 <html>
   <head>
-    <script type="text/javascript" src="../../dist/build.js"></script>
+    <script type="text/javascript" src="../js/react-with-addons.js"></script>
+    <script type="text/javascript" src="../../dist/bundle.js"></script>
     <script src="../js/JSXTransformer.js"></script>
     <style>
       rect.positive{
@@ -17,8 +18,7 @@
     <h1>Bar Chart</h1>
     <div id="output"></div>
     <script type="text/jsx">
-      var React = Charts.React;
-      var VBarChart = Charts.VBarChart;
+      var VBarChart = D3RRC.VBarChart;
 
       var names = function(d){
           return d.text;
