@@ -224,7 +224,7 @@ var styles = {
 React.render(
   <ScatterChart
     chart-height="320"
-    chart-size={getSize}
+    chart-r={getSize}
     chart-xAxis={true}
     chart-yAxis={true}
     chart-text={getText}
