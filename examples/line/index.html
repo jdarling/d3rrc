@@ -5,24 +5,6 @@
     <script type="text/javascript" src="../js/react-with-addons.js"></script>
     <script type="text/javascript" src="../../dist/bundle.js"></script>
     <script src="../js/JSXTransformer.js"></script>
-    <style>
-      .axis path,
-      .axis line {
-        fill: none;
-        stroke: #000;
-        shape-rendering: crispEdges;
-      }
-
-      .x.axis path {
-        display: none;
-      }
-
-      .line {
-        fill: none;
-        stroke: steelblue;
-        stroke-width: 1.5px;
-      }
-    </style>
   </head>
   <body>
     <h1>Multi Line Chart</h1>
@@ -89,6 +71,12 @@
           }.bind(this), 1000);
         },
         render(){
+          var style = {
+            '.axis path': 'fill: none; stroke: #000; shape-rendering: crispEdges;',
+            '.axis line': 'fill: none; stroke: #000; shape-rendering: crispEdges;',
+            '.x.axis path': 'display: none;',
+            '.line': 'fill: none; stroke-width: 1.5px;',
+          };
           return (<LineChart
             chart-height="320"
             chart-seriesNames={seriesNames}
@@ -97,6 +85,7 @@
             chart-pointValues={pointValues}
             chart-pointIndexes={pointIndexes}
             chart-lineInterpolation="cardinal"
+            chart-style={style}
             data={this.state.data}
             />);
         }

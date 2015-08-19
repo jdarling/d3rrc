@@ -5,16 +5,6 @@
     <script type="text/javascript" src="../js/react-with-addons.js"></script>
     <script type="text/javascript" src="../../dist/bundle.js"></script>
     <script src="../js/JSXTransformer.js"></script>
-    <style>
-    .line {
-      fill: none;
-      stroke: black;
-      stroke-width: 1.5px;
-    }
-    .area {
-      fill: steelblue;
-    }
-    </style>
   </head>
   <body>
     <h1>Time Series Chart</h1>
@@ -34,9 +24,15 @@
         }
         return data;
       })(10);
+
+      var style = {
+        '.line': 'fill: none; stroke: black; stroke-width: 1.5px;',
+        '.area': 'fill: steelblue;',
+      };
       React.render(
         <TimeSeriesChart
           chart-height="120"
+          chart-style={style}
           data={data}
           />,
         document.getElementById('output')

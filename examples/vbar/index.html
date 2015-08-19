@@ -5,14 +5,6 @@
     <script type="text/javascript" src="../js/react-with-addons.js"></script>
     <script type="text/javascript" src="../../dist/bundle.js"></script>
     <script src="../js/JSXTransformer.js"></script>
-    <style>
-      rect.positive{
-        fill: steelblue;
-      }
-      rect.negative{
-        fill: brown;
-      }
-    </style>
   </head>
   <body>
     <h1>Bar Chart</h1>
@@ -38,8 +30,8 @@
         return data;
       })(10);
       var styles={
-        '.axis path': 'fill: none; stroke: blue; shape-rendering: crispEdges;',
-        '.axis line': 'fill: none; stroke: blue; shape-rendering: crispEdges;'
+        'rect.positive': 'fill: steelblue;',
+        'rect.negative': 'fill: brown;'
       };
       React.render(
         <VBarChart

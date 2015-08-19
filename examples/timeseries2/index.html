@@ -5,25 +5,6 @@
     <script type="text/javascript" src="../js/react-with-addons.js"></script>
     <script type="text/javascript" src="../../dist/bundle.js"></script>
     <script src="../js/JSXTransformer.js"></script>
-    <style>
-    .area {
-      fill: steelblue;
-      clip-path: url(#clip);
-    }
-
-    .axis path,
-    .axis line {
-      fill: none;
-      stroke: #000;
-      shape-rendering: crispEdges;
-    }
-
-    .brush .extent {
-      stroke: #fff;
-      fill-opacity: .125;
-      shape-rendering: crispEdges;
-    }
-    </style>
   </head>
   <body>
     <h1>Time Series 2 Chart</h1>
@@ -47,9 +28,17 @@
         return data;
       })(12);
 
+      var style={
+        '.area': 'fill: steelblue; clip-path: url(#clip);',
+        '.axis path': 'fill: none; stroke: #000; shape-rendering: crispEdges;',
+        '.axis line': 'fill: none; stroke: #000; shape-rendering: crispEdges;',
+        '.brush .extent': 'stroke: #fff; fill-opacity: .125; shape-rendering: crispEdges;',
+      };
+
       React.render(
         <TimeSeries2Chart
           chart-height="400"
+          chart-style={style}
           data={data}
           />,
         document.getElementById('output')

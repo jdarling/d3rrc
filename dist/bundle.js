@@ -32833,7 +32833,7 @@
 	                   .attr('d', function(d) {
 	                     return line(seriesValues(d));
 	                   })
-	                   .style('stroke', function(d) { return color(seriesNames(d)); });
+	                   .attr('stroke', function(d) { return color(seriesNames(d)); });
 	        }),
 	      exitSeries: Support.types.Function(function(series){}),
 	      enterPoints: Support.types.Function(function(points){
