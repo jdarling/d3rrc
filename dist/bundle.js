@@ -10613,11 +10613,10 @@
 	      
 	      
 	      
+	       
 	      
 	      
-	      
-	      
-	      
+	       
 	      
 	      
 	      
@@ -10635,13 +10634,12 @@
 	      identity: Support.types.String('_id'),
 	      innerRadius: Support.types.Number(0),
 	      style: Support.types.Object(false),
-	      onUpdate: Support.types.Function(false),
-	      getValue: Support.types.Function(function x(d){
+	      value: Support.types.Function(function x(d){
 	        return +d.value;
 	      }),
 	      colorRange: Support.types.Function(false),
 	      color: Support.types.Function(false),
-	      getText: Support.types.Function(function(d){
+	      text: Support.types.Function(function(d){
 	        return d.text||'';
 	      }),
 	      getIdentity: Support.types.Function(function(d){
@@ -10677,7 +10675,7 @@
 	          .text(function(d) { return getText(d.data); });
 	      }),
 	      exitSlice: Support.types.Function(function(node, arc){})
-	    }),margin=$__0.margin,width=$__0.width,height=$__0.height,duration=$__0.duration,identity=$__0.identity,innerRadius=$__0.innerRadius,style=$__0.style,onUpdate=$__0.onUpdate,getValue=$__0.getValue,colorRange=$__0.colorRange,color=$__0.color,getText=$__0.getText,getIdentity=$__0.getIdentity,enterSlice=$__0.enterSlice,updateSlice=$__0.updateSlice,exitSlice=$__0.exitSlice;
+	    }),margin=$__0.margin,width=$__0.width,height=$__0.height,duration=$__0.duration,identity=$__0.identity,innerRadius=$__0.innerRadius,style=$__0.style,getValue=$__0.value,colorRange=$__0.colorRange,color=$__0.color,getText=$__0.text,getIdentity=$__0.getIdentity,enterSlice=$__0.enterSlice,updateSlice=$__0.updateSlice,exitSlice=$__0.exitSlice;
 
 	    color = color || function(d){
 	      return d.color||colorRange(getValue(d));
@@ -11111,20 +11109,18 @@
 	      
 	      
 	      
+	       
+	       
 	      
 	      
 	      
-	      
-	      
-	      
-	      
-	      
-	      
-	      
-	      
-	      
-	      
-	      
+	       
+	       
+	       
+	       
+	       
+	       
+	       
 	      
 	      
 	      
@@ -11139,22 +11135,21 @@
 	      width: Support.types.Number(-1),
 	      height: Support.types.Number(420),
 	      duration: Support.types.Number(500),
-	      showXAxis: Support.types.Boolean(true),
-	      showYAxis: Support.types.Boolean(true),
+	      xAxis: Support.types.Boolean(true),
+	      yAxis: Support.types.Boolean(true),
 	      identity: Support.types.String('_id'),
 	      idx: Support.types.Number(1),
 	      style: Support.types.Object(false),
-	      getColor: Support.types.Function(false),
-	      getX: Support.types.Function(function x(d){
+	      x: Support.types.Function(function x(d){
 	        return d.x;
 	      }),
-	      getY: Support.types.Function(function y(d){
+	      y: Support.types.Function(function y(d){
 	        return d.y;
 	      }),
-	      getR: Support.types.Function(function(d){
+	      r: Support.types.Function(function(d){
 	        return 8;
 	      }),
-	      getScaleX: Support.types.Function(function(data, w){
+	      scaleX: Support.types.Function(function(data, w){
 	        var min = d3.min(data, getX), max = d3.max(data, getX);
 	        var r = ((max - min) * 0.1) || 1;
 	        min -= r;
@@ -11164,7 +11159,7 @@
 	          .range([0, w])
 	          ;
 	      }),
-	      getScaleY: Support.types.Function(function(data, h){
+	      scaleY: Support.types.Function(function(data, h){
 	        var min = d3.min(data, getY), max = d3.max(data, getY);
 	        var r = ((max - min) * 0.1) || 1;
 	        min -= r;
@@ -11174,10 +11169,13 @@
 	          .range([0,h])
 	          ;
 	      }),
-	      getColor: Support.types.Function(function(d){
+	      color: Support.types.Function(function(d){
 	        return 'black';
 	      }),
-	      getText: Support.types.Function(function(d){ return d.text||''; }),
+	      text: Support.types.Function(function(d){ return d.text||''; }),
+	      getIdentity: Support.types.Function(function(d){
+	        return d[identity] || (d[identity] = ++idx);
+	      }),
 	      enterNode: Support.types.Function(function(node){
 	        var circle = node.append('svg:circle')
 	            .attr('r', 1e-6);
@@ -11206,7 +11204,7 @@
 	        node.select('text')
 	            .style('fill-opacity', 1e-6);
 	      })
-	    }),margin=$__0.margin,width=$__0.width,height=$__0.height,duration=$__0.duration,showXAxis=$__0.showXAxis,showYAxis=$__0.showYAxis,identity=$__0.identity,idx=$__0.idx,style=$__0.style,onUpdate=$__0.onUpdate,getColor=$__0.getColor,getX=$__0.getX,getY=$__0.getY,getR=$__0.getR,getScaleX=$__0.getScaleX,getScaleY=$__0.getScaleY,getColor=$__0.getColor,getText=$__0.getText,enterNode=$__0.enterNode,updateNode=$__0.updateNode,exitNode=$__0.exitNode,style=$__0.style;
+	    }),margin=$__0.margin,width=$__0.width,height=$__0.height,duration=$__0.duration,showXAxis=$__0.xAxis,showYAxis=$__0.yAxis,identity=$__0.identity,idx=$__0.idx,style=$__0.style,getColor=$__0.color,getX=$__0.x,getY=$__0.y,getR=$__0.r,getScaleX=$__0.scaleX,getScaleY=$__0.scaleY,getText=$__0.text,getIdentity=$__0.getIdentity,enterNode=$__0.enterNode,updateNode=$__0.updateNode,exitNode=$__0.exitNode;
 
 	    selection.each(function(data){
 	      var wid = width===-1?this.offsetWidth:width;
@@ -11238,7 +11236,7 @@
 	        ;
 
 	      var node = svg.selectAll('g.node')
-	          .data(data, function(d) { return d[identity] || (d[identity] = ++idx); })
+	          .data(data, getIdentity)
 	          ;
 	      var nodeEnter = node.enter().append('svg:g')
 	          .attr('class', 'node')
