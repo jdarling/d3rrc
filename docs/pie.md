@@ -20,25 +20,102 @@ The margins for the chart.  These can be set as a whole or individually.
 ```
 
 ###chart-width
+
+Sets the width of the chart, if not specified is set to the current parents width.
+
 ###chart-height
+
+The height of the chart, if not specified defaults to 420.
+
 ###chart-duration
+
+Sets the transition time in milliseconds for when data changes to provide a smooth view update.
+
 ###chart-identity
+
+The identity member for a given slice.  By default '_id' but you can set it to whatever you want.  If your identity isn't on the main object then look at getIdentity to return it.
+
 ###chart-innerRadius
+
+If you want to render the Pie chart as a Donut this sets the inner radius to cut out.
+
 ###chart-style
+
+Used to set custom styles on the chart.
+
 ###data
+
+This is the data the chart will render.
 
 Methods
 ---
 
-###chart-onUpdate
-###chart-getValue
+###chart-value
+
+Used to return the value associated with a slice of data.
+
 ###chart-colorRange
+
+Similar to Color but used to set the start and stop colors that are then used to render the slices.
+
 ###chart-color
-###chart-getText
+
+The color function used to colorize each of the bars.
+
+```jsx
+var color = function(name){
+  if(name==='something'){
+    return '#f00'; // red
+  }
+  if(name==='else'){
+    return '#0f0'; // blue
+  }
+};
+
+<Chart
+  chart-color={color}
+  />
+```
+
+###chart-text
+
+Returns the text for each individual slice.
+
+```jsx
+var text = function(d){
+  return d.text;
+};
+
+<Chart
+  chart-text={text}
+  />
+```
+
 ###chart-getIdentity
+
+Called to get the identity of a slice.
+
+```jsx
+var getIdentity = function(d){
+  return d.data[identity] || (d.data[identity] = ++idx);
+};
+
+<Chart
+  chart-getIdentity={getIdentity}
+  />
+```
+
 ###chart-enterSlice
+
+Called when a new slice is added to the chart and renders its initial view.
+
 ###chart-updateSlice
+
+Called when a slice is updated and renders the updates.
+
 ###chart-exitSlice
+
+Called when a slice is removed from the chart and does any cleanup.
 
 Typical Usage
 ---

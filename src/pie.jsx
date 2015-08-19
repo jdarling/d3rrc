@@ -13,11 +13,10 @@ var PieChart = React.createClass({
       identity,
       innerRadius,
       style,
-      onUpdate,
-      getValue,
+      value: getValue,
       colorRange,
       color,
-      getText,
+      text: getText,
       getIdentity,
       enterSlice,
       updateSlice,
@@ -35,13 +34,12 @@ var PieChart = React.createClass({
       identity: Support.types.String('_id'),
       innerRadius: Support.types.Number(0),
       style: Support.types.Object(false),
-      onUpdate: Support.types.Function(false),
-      getValue: Support.types.Function(function x(d){
+      value: Support.types.Function(function x(d){
         return +d.value;
       }),
       colorRange: Support.types.Function(false),
       color: Support.types.Function(false),
-      getText: Support.types.Function(function(d){
+      text: Support.types.Function(function(d){
         return d.text||'';
       }),
       getIdentity: Support.types.Function(function(d){
