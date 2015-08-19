@@ -15,18 +15,16 @@ var ScatterChart = React.createClass({
       idx,
       style,
       onUpdate,
-      getColor,
-      getX,
-      getY,
-      getR,
-      getScaleX,
-      getScaleY,
-      getColor,
-      getText,
+      color: getColor,
+      x: getX,
+      y: getY,
+      r: getR,
+      scaleX: getScaleX,
+      scaleY: getScaleY,
+      text: getText,
       enterNode,
       updateNode,
       exitNode,
-      style
     } = Support.getProps(this, 'chart', {
       margin: Support.types.Object({
             top: Support.types.Number(30),
@@ -42,17 +40,16 @@ var ScatterChart = React.createClass({
       identity: Support.types.String('_id'),
       idx: Support.types.Number(1),
       style: Support.types.Object(false),
-      getColor: Support.types.Function(false),
-      getX: Support.types.Function(function x(d){
+      x: Support.types.Function(function x(d){
         return d.x;
       }),
-      getY: Support.types.Function(function y(d){
+      y: Support.types.Function(function y(d){
         return d.y;
       }),
-      getR: Support.types.Function(function(d){
+      r: Support.types.Function(function(d){
         return 8;
       }),
-      getScaleX: Support.types.Function(function(data, w){
+      scaleX: Support.types.Function(function(data, w){
         var min = d3.min(data, getX), max = d3.max(data, getX);
         var r = ((max - min) * 0.1) || 1;
         min -= r;
@@ -62,7 +59,7 @@ var ScatterChart = React.createClass({
           .range([0, w])
           ;
       }),
-      getScaleY: Support.types.Function(function(data, h){
+      scaleY: Support.types.Function(function(data, h){
         var min = d3.min(data, getY), max = d3.max(data, getY);
         var r = ((max - min) * 0.1) || 1;
         min -= r;
@@ -72,10 +69,10 @@ var ScatterChart = React.createClass({
           .range([0,h])
           ;
       }),
-      getColor: Support.types.Function(function(d){
+      color: Support.types.Function(function(d){
         return 'black';
       }),
-      getText: Support.types.Function(function(d){ return d.text||''; }),
+      text: Support.types.Function(function(d){ return d.text||''; }),
       enterNode: Support.types.Function(function(node){
         var circle = node.append('svg:circle')
             .attr('r', 1e-6);
