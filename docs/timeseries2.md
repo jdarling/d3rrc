@@ -23,18 +23,86 @@ In the time series 2 chart the bottom margin is used to set the space that the z
 ```
 
 ###chart-width
+
+Sets the width of the chart, if not specified is set to the current parents width.
+
 ###chart-height
+
+The height of the chart, if not specified defaults to 420.
+
 ###chart-style
+
+Used to set custom styles on the chart.
+
 ###data
+
+This is the data the chart will render.
 
 Methods
 ---
 
 ###chart-xValue
+
+Used to get the X value for a data point.
+
+```jsx
+var x = function(d){
+  return d.x;
+};
+
+<Chart
+  chart-xValue={x}
+  />
+```
+
 ###chart-yValue
+
+Used to get the Y value for a data point.
+
+```jsx
+var y = function(d){
+  return d.y;
+};
+
+<Chart
+  chart-yValue={y}
+  />
+```
+
 ###chart-xScale
+
+Used to calculate the X Scale on the chart.
+
+```jsx
+<Chart
+  chart-xScale={d3.time.scale()}
+  />
+```
+
 ###chart-yScale
+
+Used to calculate the Y Scale on the chart.
+
+```jsx
+<Chart
+  chart-yScale={d3.scale.linear()}
+  />
+```
+
 ###chart-xAxis
+
+Used to render the X Axis on the chart.
+
+```jsx
+var xAxis = function(){
+  d3.svg.axis().scale(_scale).orient("bottom").tickSize(6, 0);
+};
+
+<Chart
+  chart-xAxis={xAxis}
+  />
+```
+
 
 Typical Usage
 ---
