@@ -14,7 +14,6 @@ var ScatterChart = React.createClass({
       identity,
       idx,
       style,
-      onUpdate,
       color: getColor,
       x: getX,
       y: getY,
@@ -22,6 +21,7 @@ var ScatterChart = React.createClass({
       scaleX: getScaleX,
       scaleY: getScaleY,
       text: getText,
+      getIdentity,
       enterNode,
       updateNode,
       exitNode,
@@ -73,6 +73,9 @@ var ScatterChart = React.createClass({
         return 'black';
       }),
       text: Support.types.Function(function(d){ return d.text||''; }),
+      getIdentity: Support.types.Function(function(d){
+        return d[identity] || (d[identity] = ++idx);
+      }),
       enterNode: Support.types.Function(function(node){
         var circle = node.append('svg:circle')
             .attr('r', 1e-6);
@@ -133,7 +136,7 @@ var ScatterChart = React.createClass({
         ;
 
       var node = svg.selectAll('g.node')
-          .data(data, function(d) { return d[identity] || (d[identity] = ++idx); })
+          .data(data, getIdentity)
           ;
       var nodeEnter = node.enter().append('svg:g')
           .attr('class', 'node')

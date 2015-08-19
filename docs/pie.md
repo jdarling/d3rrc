@@ -60,7 +60,7 @@ Similar to Color but used to set the start and stop colors that are then used to
 
 ###chart-color
 
-The color function used to colorize each of the bars.
+The color function used to colorize each of the segments.
 
 ```jsx
 var color = function(name){
