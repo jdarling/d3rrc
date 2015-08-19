@@ -11,6 +11,9 @@ Latest Updates
 Planned Features
 ----------------
 
+v1.0.x
+  * All bug fixes, examples, and documentation
+
 v1.1.x
   * Accessibility within existing chart types
     * Screen reader support

@@ -31,7 +31,7 @@
         }
         return data;
       })(10);
-      var styles = {
+      var style = {
           circle: 'fill: steelblue; stroke: black;',
           'g.xAxis .tick line': 'shape-rendering: crispEdges; stroke: steelblue; fill: none;'
         };
@@ -42,7 +42,7 @@
           chart-xAxis={true}
           chart-yAxis={true}
           chart-text={getText}
-          chart-style={styles}
+          chart-style={style}
           data={data}
           />,
         document.getElementById('output')
