@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+  <head>
+    <script type="text/javascript" src="../js/react-with-addons.js"></script>
+    <script type="text/javascript" src="../../dist/bundle.js"></script>
+    <script src="../js/JSXTransformer.js"></script>
+  </head>
+  <body>
+    <h1>Simple Line Chart</h1>
+    <div id="output"></div>
+    <script type="text/jsx">
+      var LineChart = D3RRC.LineChart;
+
+      var seriesNames = function(d){
+          return d.name;
+        };
+      var seriesValues = function(d){
+          return d.values;
+        };
+      var pointNames = function(d){
+          return d.text;
+        };
+      var pointValues = function(d){
+          return d.value;
+        };
+      var pointIndexes = function(d, i){
+        return d.index;
+      };
+
+      var data = (function(size){
+        var data = [], series;
+        var i, l=size;
+        series = {name: 'Test Series', values: []};
+        for(i=0; i<l; i++){
+          series.values.push({
+            value: Math.floor(Math.random() * 90)+10,
+            text: "Value "+i,
+            index: i
+          });
+          series.max = i;
+        }
+        data.push(series);
+        return data;
+      })(10);
+
+      var style = {
+        '.axis path': 'fill: none; stroke: #000; shape-rendering: crispEdges;',
+        '.axis line': 'fill: none; stroke: #000; shape-rendering: crispEdges;',
+        '.x.axis path': 'display: none;',
+        '.line': 'fill: none; stroke-width: 1.5px;',
+      };
+
+      React.render(
+        <LineChart
+          chart-height="320"
+          chart-seriesNames={seriesNames}
+          chart-seriesValues={seriesValues}
+          chart-pointNames={pointNames}
+          chart-pointValues={pointValues}
+          chart-pointIndexes={pointIndexes}
+          chart-style={style}
+          data={data}
+          />,
+        document.getElementById('output')
+      );
+
+      //SOURCE DUMP
+      var src = document.querySelector('[type="text/jsx"]').innerText
+                  .split('//SOURCE DUMP').shift();
+      var pre = document.createElement('pre');
+      var ws = src.match(/[ \t]+/).shift();
+      var reWS = new RegExp('^'+ws, 'gm');
+      var header = document.createElement('h2');
+      header.innerText = 'Source';
+      pre.style.padding="10px 10px 10px 10px";
+      pre.style.margin="0px 0px 0px 0px";
+      pre.style.background='silver';
+      pre.style.border='1px solid black';
+      pre.appendChild(document.createTextNode(src.replace(reWS, '').trim()));
+      document.body.appendChild(header);
+      document.body.appendChild(pre);
+    </script>
+  </body>
+</html>
