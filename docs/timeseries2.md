@@ -13,7 +13,7 @@ The margins for the chart.  These can be set as a whole or individually.
 
 In the time series 2 chart the bottom margin is used to set the space that the zoom chart will be placed in.  By default this is 100.
 
-```
+```jsx
 <Chart
   chart-margin={{left: 10, right: 10, top: 10, bottom: 10}}
   />

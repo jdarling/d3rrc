@@ -10,7 +10,7 @@ Properties
 
 The margins for the chart.  These can be set as a whole or individually.
 
-```
+```jsx
 <Chart
   chart-margin={{left: 10, right: 10, top: 10, bottom: 10}}
   />

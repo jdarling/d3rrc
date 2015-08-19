@@ -18,7 +18,7 @@ The height of the chart, if not specified defaults to 420.
 
 The margins for the chart.  These can be set as a whole or individually.
 
-```
+```jsx
 <Chart
   chart-margin={{left: 10, right: 10, top: 10, bottom: 10}}
   />
@@ -52,7 +52,7 @@ Methods
 
 The color function used to colorize each of the bars.
 
-```
+```jsx
 var color = function(name){
   if(name==='something'){
     return '#f00'; // red
@@ -79,7 +79,7 @@ Called when data removed from the chart and a bar is removed.
 
 Used to get the name for the bar being rendered.
 
-```
+```jsx
 var name = function(d){
   return d.name;
 };
@@ -97,7 +97,7 @@ Called when data changes and a bar needs updating.
 
 Used to get the value for the bar being rendered.
 
-```
+```jsx
 var value = function(d){
   return d.value;
 };

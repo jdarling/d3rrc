@@ -10,7 +10,7 @@ Properties
 
 The margins for the chart.  These can be set as a whole or individually.
 
-```
+```jsx
 <Chart
   chart-margin={{left: 10, right: 10, top: 10, bottom: 10}}
   />
@@ -58,7 +58,7 @@ Sets the transition time in milliseconds for when data changes to provide a smoo
 
 The color function used to colorize each of the bars.
 
-```
+```jsx
 var color = function(name){
   if(name==='something'){
     return '#f00'; // red
@@ -88,7 +88,7 @@ Methods
 
 Used to get the name for each series.
 
-```
+```jsx
 var seriesNames = function(d){
   return d.name;
 };
@@ -102,7 +102,7 @@ var seriesNames = function(d){
 
 Used to get the values for each series.
 
-```
+```jsx
 var seriesValues = function(d){
   return d.values;
 };
@@ -116,7 +116,7 @@ var seriesValues = function(d){
 
 Used to get the names for each point in a series.
 
-```
+```jsx
 var pointNames = function(d){
   return d.text;
 };
@@ -130,7 +130,7 @@ var pointNames = function(d){
 
 Used to get the positional index for each point in a series.
 
-```
+```jsx
 var pointIndexes = function(d, i){
   return d.index; // by default uses i
 };
@@ -144,7 +144,7 @@ var pointIndexes = function(d, i){
 
 Used to get the values for each point in a series.
 
-```
+```jsx
 var pointValues = function(d){
   return d.value;
 };
