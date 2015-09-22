@@ -10372,6 +10372,7 @@
 	      
 	      
 	      
+	      
 	      Support.getProps(this, 'chart', {
 	      margin: Support.types.Object({
 	                  top: Support.types.Number(20),
@@ -10391,6 +10392,7 @@
 	      pointNames: Support.types.Function(function(d) { return d[0]; }),
 	      pointIndexes: Support.types.Function(function(d, i) { return i; }),
 	      pointValues: Support.types.Function(function(d) { return d[1]; }),
+	      pointText: Support.types.Function(function(d){return '';}),
 	      enterSeries: Support.types.Function(function(series){
 	          series.append('path')
 	              .attr('class', 'line');
@@ -10411,6 +10413,8 @@
 	            })
 	            .attr("r", 5)
 	            .attr("fill", "white").attr("fill-opacity", .5)
+	            .append('title')
+	            .text(pointText);
 	        }),
 	      updatePoints:Support.types.Function(function(points){
 
@@ -10434,7 +10438,7 @@
 	            .text(function(d) { return d.name; });
 	        }),
 	      exitSeriesTitle: Support.types.Function(function(series){})
-	    }),margin=$__0.margin,width=$__0.width,height=$__0.height,yAxisTitle=$__0.yAxisTitle,lineInterpolation=$__0.lineInterpolation,duration=$__0.duration,color=$__0.color,style=$__0.style,seriesNames=$__0.seriesNames,seriesValues=$__0.seriesValues,pointNames=$__0.pointNames,pointIndexes=$__0.pointIndexes,pointValues=$__0.pointValues,enterSeries=$__0.enterSeries,updateSeries=$__0.updateSeries,exitSeries=$__0.exitSeries,enterPoints=$__0.enterPoints,updatePoints=$__0.updatePoints,exitPoints=$__0.exitPoints,enterSeriesTitle=$__0.enterSeriesTitle,updateSeriesTitle=$__0.updateSeriesTitle,exitSeriesTitle=$__0.exitSeriesTitle;
+	    }),margin=$__0.margin,width=$__0.width,height=$__0.height,yAxisTitle=$__0.yAxisTitle,lineInterpolation=$__0.lineInterpolation,duration=$__0.duration,color=$__0.color,style=$__0.style,seriesNames=$__0.seriesNames,seriesValues=$__0.seriesValues,pointNames=$__0.pointNames,pointIndexes=$__0.pointIndexes,pointValues=$__0.pointValues,pointText=$__0.pointText,enterSeries=$__0.enterSeries,updateSeries=$__0.updateSeries,exitSeries=$__0.exitSeries,enterPoints=$__0.enterPoints,updatePoints=$__0.updatePoints,exitPoints=$__0.exitPoints,enterSeriesTitle=$__0.enterSeriesTitle,updateSeriesTitle=$__0.updateSeriesTitle,exitSeriesTitle=$__0.exitSeriesTitle;
 
 	    var w = width - margin.left - margin.right;
 	    var h = height - margin.top - margin.bottom;
