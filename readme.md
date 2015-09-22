@@ -4,6 +4,7 @@ D3 React Reusable Charts
 Latest Updates
 -------------
 
+  * v1.0.5 - Add title to Line Chart Node's
   * v1.0.2 - Bug fixes to Timeseries2
   * v1.0.1 - Examples updates
   * v1.0.0 - Changed to Webpack, removed React from direct dependencies, upgraded to React v0.13.3
@@ -122,6 +123,7 @@ charts.js file in the root folder.
 HISTORY
 =======
 
+  * v1.0.5 - Add title to Line Chart Node's
   * v1.0.2 - Bug fixes to Timeseries2
   * v1.0.1 - Fixed examples
   * v1.0.0 - Changed to Webpack, removed React from direct dependencies, upgraded to React v0.13.3
