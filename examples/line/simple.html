@@ -27,6 +27,9 @@
       var pointIndexes = function(d, i){
         return d.index;
       };
+      var pointText = function(d){
+        return d.text + ' ' + d.value;
+      };
 
       var data = (function(size){
         var data = [], series;
@@ -59,6 +62,7 @@
           chart-pointNames={pointNames}
           chart-pointValues={pointValues}
           chart-pointIndexes={pointIndexes}
+          chart-pointText={pointText}
           chart-style={style}
           data={data}
           />,

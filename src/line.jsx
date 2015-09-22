@@ -18,6 +18,7 @@ var LineChart = React.createClass({
       pointNames,
       pointIndexes,
       pointValues,
+      pointText,
       enterSeries,
       updateSeries,
       exitSeries,
@@ -46,6 +47,7 @@ var LineChart = React.createClass({
       pointNames: Support.types.Function(function(d) { return d[0]; }),
       pointIndexes: Support.types.Function(function(d, i) { return i; }),
       pointValues: Support.types.Function(function(d) { return d[1]; }),
+      pointText: Support.types.Function(function(d){return '';}),
       enterSeries: Support.types.Function(function(series){
           series.append('path')
               .attr('class', 'line');
@@ -66,6 +68,8 @@ var LineChart = React.createClass({
             })
             .attr("r", 5)
             .attr("fill", "white").attr("fill-opacity", .5)
+            .append('title')
+            .text(pointText);
         }),
       updatePoints:Support.types.Function(function(points){
 
