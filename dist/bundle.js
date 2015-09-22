@@ -10417,10 +10417,11 @@
 	            .text(pointText);
 	        }),
 	      updatePoints:Support.types.Function(function(points){
-
+	        points.select('circle title')
+	          .text(pointText);
 	        }),
 	      exitPoints:Support.types.Function(function(points){
-
+	          points.select('circle').remove();
 	        }),
 	      enterSeriesTitle: Support.types.Function(function(seriesTitle){
 	          seriesTitle
