@@ -78,7 +78,7 @@ var PieChart = React.createClass({
     });
 
     color = color || function(d){
-      return d.color||colorRange(getValue(d));
+      return d.color||colorRange(getValue(d), d, d[identity]);
     };
 
     selection.each(function(data){
