@@ -10627,6 +10627,7 @@
 	      
 	      
 	      
+	      
 	       
 	      
 	      
@@ -10647,6 +10648,7 @@
 	      duration: Support.types.Number(500),
 	      identity: Support.types.String('_id'),
 	      innerRadius: Support.types.Number(0),
+	      sliceText: Support.types.Function(function(){}),
 	      style: Support.types.Object(false),
 	      value: Support.types.Function(function x(d){
 	        return +d.value;
@@ -10664,6 +10666,7 @@
 	          .style('fill', function(d){
 	            return color(d.data);
 	          })
+	          .append('title')
 	          ;
 	        node.append("text")
 	          .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
@@ -10684,15 +10687,18 @@
 	              return arc(interpolate(t));
 	            };
 	          });
+	        node.select('title')
+	          .text(sliceText);
+
 	        node.select('text')
 	          .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
 	          .text(function(d) { return getText(d.data); });
 	      }),
 	      exitSlice: Support.types.Function(function(node, arc){})
-	    }),margin=$__0.margin,width=$__0.width,height=$__0.height,duration=$__0.duration,identity=$__0.identity,innerRadius=$__0.innerRadius,style=$__0.style,getValue=$__0.value,colorRange=$__0.colorRange,color=$__0.color,getText=$__0.text,getIdentity=$__0.getIdentity,enterSlice=$__0.enterSlice,updateSlice=$__0.updateSlice,exitSlice=$__0.exitSlice;
+	    }),margin=$__0.margin,width=$__0.width,height=$__0.height,duration=$__0.duration,identity=$__0.identity,innerRadius=$__0.innerRadius,sliceText=$__0.sliceText,style=$__0.style,getValue=$__0.value,colorRange=$__0.colorRange,color=$__0.color,getText=$__0.text,getIdentity=$__0.getIdentity,enterSlice=$__0.enterSlice,updateSlice=$__0.updateSlice,exitSlice=$__0.exitSlice;
 
 	    color = color || function(d){
-	      return d.color||colorRange(getValue(d));
+	      return d.color||colorRange(getValue(d), d, d[identity]);
 	    };
 
 	    selection.each(function(data){

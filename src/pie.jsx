@@ -12,6 +12,7 @@ var PieChart = React.createClass({
       duration,
       identity,
       innerRadius,
+      sliceText,
       style,
       value: getValue,
       colorRange,
@@ -33,6 +34,7 @@ var PieChart = React.createClass({
       duration: Support.types.Number(500),
       identity: Support.types.String('_id'),
       innerRadius: Support.types.Number(0),
+      sliceText: Support.types.Function(function(){}),
       style: Support.types.Object(false),
       value: Support.types.Function(function x(d){
         return +d.value;
@@ -50,6 +52,7 @@ var PieChart = React.createClass({
           .style('fill', function(d){
             return color(d.data);
           })
+          .append('title')
           ;
         node.append("text")
           .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
@@ -70,6 +73,9 @@ var PieChart = React.createClass({
               return arc(interpolate(t));
             };
           });
+        node.select('title')
+          .text(sliceText);
+
         node.select('text')
           .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
           .text(function(d) { return getText(d.data); });
