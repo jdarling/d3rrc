@@ -50,7 +50,8 @@ var LineChart = React.createClass({
       pointText: Support.types.Function(function(d){return '';}),
       enterSeries: Support.types.Function(function(series){
           series.append('path')
-              .attr('class', 'line');
+              .attr('class', 'line')
+              ;
         }),
       updateSeries: Support.types.Function(function(series){
           series.select('path.line')
@@ -59,7 +60,9 @@ var LineChart = React.createClass({
                    })
                    .attr('stroke', function(d) { return color(seriesNames(d)); });
         }),
-      exitSeries: Support.types.Function(function(series){}),
+      exitSeries: Support.types.Function(function(series){
+        series.remove();
+      }),
       enterPoints: Support.types.Function(function(points){
           points
             .append("circle")
@@ -93,7 +96,9 @@ var LineChart = React.createClass({
             .select('text')
             .text(function(d) { return d.name; });
         }),
-      exitSeriesTitle: Support.types.Function(function(series){})
+      exitSeriesTitle: Support.types.Function(function(series){
+        series.remove();
+      })
     });
 
     var w = width - margin.left - margin.right;
@@ -175,8 +180,9 @@ var LineChart = React.createClass({
         }
       }
       yAxisGroup.call(yAxis);
-
-      var series = svg.selectAll('g.series').data(data);
+      var series = svg.selectAll('.series').data(data, function(d){
+        return seriesNames(d);
+      });
       var seriesEnter = series.enter()
         .append('g')
         .attr('class', 'series')
@@ -191,12 +197,15 @@ var LineChart = React.createClass({
       });
       var pointsEnter = points.enter()
         .append('g')
-        .attr('class', 'points');
+        .attr('class', 'points')
+        ;
+
       points
         .attr('transform', function(d, i) {
             return 'translate(' + x(pointIndexes(d, i)) + ',' + y(pointValues(d, i)) + ')';
           })
         ;
+
       enterPoints(pointsEnter);
       updatePoints(points);
       var pointsExit = points.exit();
@@ -206,13 +215,13 @@ var LineChart = React.createClass({
       var seriesTitleEnter = seriesTitle.enter()
             .append('g')
             .attr('class', 'series title');
+      var seriesTitleExit = seriesTitle.exit();
       seriesTitle.datum(function(d){
           var values = seriesValues(d);
           return {name: seriesNames(d), value: values[values.length - 1], idx: values.length - 1};
         });
       enterSeriesTitle(seriesTitleEnter);
       updateSeriesTitle(seriesTitle);
-      var seriesTitleExit = seriesTitle.exit();
       exitSeriesTitle(seriesTitleExit);
 
       if(style){

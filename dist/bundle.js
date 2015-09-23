@@ -10395,7 +10395,8 @@
 	      pointText: Support.types.Function(function(d){return '';}),
 	      enterSeries: Support.types.Function(function(series){
 	          series.append('path')
-	              .attr('class', 'line');
+	              .attr('class', 'line')
+	              ;
 	        }),
 	      updateSeries: Support.types.Function(function(series){
 	          series.select('path.line')
@@ -10404,7 +10405,9 @@
 	                   })
 	                   .attr('stroke', function(d) { return color(seriesNames(d)); });
 	        }),
-	      exitSeries: Support.types.Function(function(series){}),
+	      exitSeries: Support.types.Function(function(series){
+	        series.remove();
+	      }),
 	      enterPoints: Support.types.Function(function(points){
 	          points
 	            .append("circle")
@@ -10438,7 +10441,9 @@
 	            .select('text')
 	            .text(function(d) { return d.name; });
 	        }),
-	      exitSeriesTitle: Support.types.Function(function(series){})
+	      exitSeriesTitle: Support.types.Function(function(series){
+	        series.remove();
+	      })
 	    }),margin=$__0.margin,width=$__0.width,height=$__0.height,yAxisTitle=$__0.yAxisTitle,lineInterpolation=$__0.lineInterpolation,duration=$__0.duration,color=$__0.color,style=$__0.style,seriesNames=$__0.seriesNames,seriesValues=$__0.seriesValues,pointNames=$__0.pointNames,pointIndexes=$__0.pointIndexes,pointValues=$__0.pointValues,pointText=$__0.pointText,enterSeries=$__0.enterSeries,updateSeries=$__0.updateSeries,exitSeries=$__0.exitSeries,enterPoints=$__0.enterPoints,updatePoints=$__0.updatePoints,exitPoints=$__0.exitPoints,enterSeriesTitle=$__0.enterSeriesTitle,updateSeriesTitle=$__0.updateSeriesTitle,exitSeriesTitle=$__0.exitSeriesTitle;
 
 	    var w = width - margin.left - margin.right;
@@ -10520,8 +10525,9 @@
 	        }
 	      }
 	      yAxisGroup.call(yAxis);
-
-	      var series = svg.selectAll('g.series').data(data);
+	      var series = svg.selectAll('.series').data(data, function(d){
+	        return seriesNames(d);
+	      });
 	      var seriesEnter = series.enter()
 	        .append('g')
 	        .attr('class', 'series')
@@ -10536,12 +10542,15 @@
 	      });
 	      var pointsEnter = points.enter()
 	        .append('g')
-	        .attr('class', 'points');
+	        .attr('class', 'points')
+	        ;
+
 	      points
 	        .attr('transform', function(d, i) {
 	            return 'translate(' + x(pointIndexes(d, i)) + ',' + y(pointValues(d, i)) + ')';
 	          })
 	        ;
+
 	      enterPoints(pointsEnter);
 	      updatePoints(points);
 	      var pointsExit = points.exit();
@@ -10551,13 +10560,13 @@
 	      var seriesTitleEnter = seriesTitle.enter()
 	            .append('g')
 	            .attr('class', 'series title');
+	      var seriesTitleExit = seriesTitle.exit();
 	      seriesTitle.datum(function(d){
 	          var values = seriesValues(d);
 	          return {name: seriesNames(d), value: values[values.length - 1], idx: values.length - 1};
 	        });
 	      enterSeriesTitle(seriesTitleEnter);
 	      updateSeriesTitle(seriesTitle);
-	      var seriesTitleExit = seriesTitle.exit();
 	      exitSeriesTitle(seriesTitleExit);
 
 	      if(style){

@@ -46,6 +46,7 @@
         return data;
       })(2, 10);
 
+      var itterations = 0;
       var Demo = React.createClass({
         getInitialState(){
           return {
@@ -55,13 +56,34 @@
         componentDidMount(){
           setInterval(function(){
             var data = this.state.data;
+            var max = data[0].max;
+            itterations++;
+            if(itterations % 5 === 0){
+              var val = {
+                value: Math.floor(Math.random() * 90)+10,
+                text: "Series "+itterations+" - Value "+max,
+                index: max-1
+              };
+              data.push({
+                name: 'Series '+itterations,
+                num: itterations,
+                max: max,
+                values: [val]
+              });
+              if(data.length > 5){
+                data.shift();
+              }
+            }
+
             data.forEach(function(series){
               var val = {
                 value: Math.floor(Math.random() * 90)+10,
                 text: "Series "+series.num+" - Value "+series.max,
                 index: series.max
               };
-              var old = series.values.shift();
+              if(series.values.length >= 10){
+                series.values.shift();
+              }
               series.max++;
               series.values.push(val);
             });
